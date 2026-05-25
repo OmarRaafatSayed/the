@@ -1,0 +1,41 @@
+
+{
+  "placeholderImages": [
+    {
+      "id": "mashrabiya-1-before",
+      "description": "Mashrabiya 1 before restoration showing wood decay",
+      "imageUrl": "https://picsum.photos/seed/m1b/1200/800",
+      "imageHint": "old damaged wood lattice"
+    },
+    {
+      "id": "mashrabiya-1-after",
+      "description": "Mashrabiya 1 after professional restoration",
+      "imageUrl": "https://picsum.photos/seed/m1a/1200/800",
+      "imageHint": "restored islamic wood"
+    },
+    {
+      "id": "mashrabiya-2-before",
+      "description": "Mashrabiya 2 with structural damage and dust",
+      "imageUrl": "https://picsum.photos/seed/m2b/1200/800",
+      "imageHint": "ancient wood window damage"
+    },
+    {
+      "id": "mashrabiya-2-after",
+      "description": "Mashrabiya 2 fully restored and polished",
+      "imageUrl": "https://picsum.photos/seed/m2a/1200/800",
+      "imageHint": "finished woodworking art"
+    },
+    {
+      "id": "project-hero",
+      "description": "Overview of the restoration project area",
+      "imageUrl": "https://picsum.photos/seed/project/1600/900",
+      "imageHint": "islamic architecture renovation"
+    },
+    {
+      "id": "historical-reference",
+      "description": "Two historical Mashrabiya units for documentation",
+      "imageUrl": "https://picsum.photos/seed/hist1/800/1200",
+      "imageHint": "tall islamic mashrabiya"
+    }
+  ]
+}

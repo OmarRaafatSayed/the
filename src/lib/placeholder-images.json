@@ -1,0 +1,64 @@
+{
+  "placeholderImages": [
+    {
+      "id": "museum-entrance",
+      "description": "Architectural silhouette of a modern museum entrance",
+      "imageUrl": "https://picsum.photos/seed/museum/1600/900",
+      "imageHint": "modern architecture museum"
+    },
+    {
+      "id": "era-egyptian",
+      "description": "Aerial view of pyramids, sphinx and the Nile",
+      "imageUrl": "https://i.pinimg.com/736x/9d/bc/40/9dbc40349ddd9ffa1912116f27cc635f.jpg",
+      "imageHint": "ancient egyptian pyramids aerial view"
+    },
+    {
+      "id": "era-roman",
+      "description": "Socrates Apology - classical greco-roman scene",
+      "imageUrl": "https://i.pinimg.com/736x/4f/6f/40/4f6f400c3fc3871386adcb9fcf6ec9f1.jpg",
+      "imageHint": "greco roman classical scene"
+    },
+    {
+      "id": "era-islamic",
+      "description": "Peaceful Islamic architecture with intricate carvings",
+      "imageUrl": "https://i.pinimg.com/736x/af/8c/b8/af8cb8b556679cdd8ea9079c1766b529.jpg",
+      "imageHint": "islamic architecture peaceful"
+    },
+    {
+      "id": "project-hero",
+      "description": "Overview of the restoration project area",
+      "imageUrl": "https://picsum.photos/seed/project/1600/900",
+      "imageHint": "islamic architecture renovation"
+    },
+    {
+      "id": "project-02-islamic",
+      "description": "Close up of an intricate geometric mosque ceiling",
+      "imageUrl": "https://picsum.photos/seed/geo2/1600/900",
+      "imageHint": "geometric mosque ceiling"
+    },
+    {
+      "id": "historical-reference",
+      "description": "Historical Mashrabiya architectural reference",
+      "imageUrl": "/images/slide3/slide3_1.jpg",
+      "imageHint": "historic mashrabiya architecture"
+    },
+    {
+      "id": "structural-detail",
+      "description": "Structural detail of Mashrabiya wood turnery",
+      "imageUrl": "/images/slide3/slide3_2.jpg",
+      "imageHint": "mashrabiya wood structural detail"
+    },
+    {
+      "id": "mashrabiya-1-before",
+      "description": "Mashrabiya 1 before restoration showing wood decay",
+      "imageUrl": "/images/slide4/before.jpg",
+      "imageHint": "old damaged wood lattice"
+    },
+    {
+      "id": "mashrabiya-1-after",
+      "description": "Mashrabiya 1 after professional restoration",
+      "imageUrl": "/images/slide4/after.jpg",
+      "imageHint": "restored islamic wood"
+    }
+  ]
+}
