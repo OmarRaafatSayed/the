@@ -15,6 +15,7 @@ import { AssemblyConsolidationSection } from "@/components/AssemblyConsolidation
 import { CompletionSection } from "@/components/CompletionSection";
 import { MashrabiyaAssemblySection } from "@/components/MashrabiyaAssemblySection";
 import { PreviousRestorationSection } from "@/components/PreviousRestorationSection";
+import { FtirSection } from "@/components/FtirSection";
 import Image from "next/image";
 
 const accent = "#C9A84C";
@@ -863,6 +864,21 @@ export default function MashrabiyaProject() {
           </div>
         </div>
 
+        {/* ── Macro to Micro Visualization — moved here under Documentation ── */}
+        <div className="w-screen bg-background border-t border-foreground/5">
+          <div className="flex items-center gap-3 px-5 sm:px-8 md:px-16 pt-8">
+            <div style={{ height: "1px", width: "24px", background: accent }} />
+            <span style={{ fontSize: "8px", fontFamily: "monospace", letterSpacing: "0.4em", color: accent, textTransform: "uppercase" }}>02 — Documentation · Macro Visualization</span>
+          </div>
+          <MacroMicroSection
+            macroImg="/images/documentation/macro/mashrabiya-ungreased.jpeg"
+            microImg="/images/documentation/macro/mashrabiya-greased.jpeg"
+            title="Macro to Micro Visualization"
+            subtitle="Phase II: Documentation"
+            macroLabel="Mashrabiya — Ungreased"
+            microLabel="Mashrabiya — Greased"
+          />
+        </div>
 
       </div>
 
@@ -878,14 +894,9 @@ export default function MashrabiyaProject() {
             <div style={{ height: "1px", width: "24px", background: accent }} />
             <span style={{ fontSize: "8px", fontFamily: "monospace", letterSpacing: "0.4em", color: accent, textTransform: "uppercase" }}>03 — Characterization</span>
           </div>
-          <MacroMicroSection
-            title="Macro to Micro Visualization"
-            subtitle="Phase II: Characterization"
-            macroImg="/images/slide5/mashrabiya_full.jpg"
-            microImg="/images/slide5/mashrabiya_full.jpg"
-            macroLabel="Structural_Full_Scan"
-            microLabel="Magnified_Weakness_Analysis"
-          />
+
+          {/* ── FTIR Analysis — Mashrabiya Unit 02 ── */}
+          <FtirSection />
         </div>
 
       </div>

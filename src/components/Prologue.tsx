@@ -186,7 +186,7 @@ export function Prologue() {
             background: "linear-gradient(to bottom, rgba(10,8,0,0.7) 0%, transparent 15%, transparent 80%, rgba(10,8,0,0.8) 100%)",
           }} />
           <div className="absolute inset-0 z-0 [&>div]:h-full [&>div>div]:h-full [&>div>div]:aspect-auto">
-            <ComparisonSlider beforeImg="/images/slide4/before.jpg" afterImg="/images/slide4/after.jpg" title="" />
+            <ComparisonSlider beforeImg="/images/slide4/before.jpg" afterImg="/images/hero/M1_painted.jpeg" title="" />
           </div>
         </div>
       </div>

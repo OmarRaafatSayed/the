@@ -17,6 +17,46 @@ interface MacroMicroSectionProps {
 const ZOOM = 4;
 const LENS_SIZE = 180; // px
 
+// ── helpers: compute actual rendered rect of backgroundSize:contain ──────────
+function getContainedRect(
+  containerW: number,
+  containerH: number,
+  naturalW: number,
+  naturalH: number
+): { x: number; y: number; w: number; h: number } {
+  const containerRatio = containerW / containerH;
+  const imageRatio = naturalW / naturalH;
+  let w: number, h: number;
+  if (imageRatio > containerRatio) {
+    w = containerW;
+    h = containerW / imageRatio;
+  } else {
+    h = containerH;
+    w = containerH * imageRatio;
+  }
+  return { x: (containerW - w) / 2, y: (containerH - h) / 2, w, h };
+}
+
+function CornerBrackets({ x, y, size }: { x: number; y: number; size: number }) {
+  const half = size / 2 + 6;
+  const s = 16;
+  const t = 2;
+  const c = accent;
+  const corners = [
+    { top: y - half,     left: x - half,     borderTop: `${t}px solid ${c}`, borderLeft:    `${t}px solid ${c}` },
+    { top: y - half,     left: x + half - s, borderTop: `${t}px solid ${c}`, borderRight:   `${t}px solid ${c}` },
+    { top: y + half - s, left: x - half,     borderBottom: `${t}px solid ${c}`, borderLeft: `${t}px solid ${c}` },
+    { top: y + half - s, left: x + half - s, borderBottom: `${t}px solid ${c}`, borderRight:`${t}px solid ${c}` },
+  ];
+  return (
+    <>
+      {corners.map((style, i) => (
+        <div key={i} style={{ position: "absolute", width: s, height: s, pointerEvents: "none", zIndex: 11, ...style }} />
+      ))}
+    </>
+  );
+}
+
 function MashrabiyaPanel({
   image,
   label,
@@ -27,9 +67,29 @@ function MashrabiyaPanel({
   tag: string;
 }) {
   const containerRef = useRef<HTMLDivElement>(null);
-  // raw pixel coords relative to the container
   const [pos, setPos] = useState({ x: 0, y: 0 });
   const [hovered, setHovered] = useState(false);
+  const [natural, setNatural] = useState({ w: 0, h: 0 });
+  const [containerSize, setContainerSize] = useState({ w: 0, h: 0 });
+
+  // load natural image dimensions once
+  useEffect(() => {
+    const img = new window.Image();
+    img.onload = () => setNatural({ w: img.naturalWidth, h: img.naturalHeight });
+    img.src = image;
+  }, [image]);
+
+  // track container size
+  useEffect(() => {
+    const measure = () => {
+      if (containerRef.current) {
+        setContainerSize({ w: containerRef.current.offsetWidth, h: containerRef.current.offsetHeight });
+      }
+    };
+    measure();
+    window.addEventListener("resize", measure);
+    return () => window.removeEventListener("resize", measure);
+  }, []);
 
   const updatePos = useCallback((clientX: number, clientY: number) => {
     const el = containerRef.current;
@@ -42,17 +102,28 @@ function MashrabiyaPanel({
   }, []);
 
   const onMouseMove = useCallback((e: React.MouseEvent) => updatePos(e.clientX, e.clientY), [updatePos]);
-  const onTouchMove  = useCallback((e: React.TouchEvent) => {
+  const onTouchMove = useCallback((e: React.TouchEvent) => {
     e.preventDefault();
     updatePos(e.touches[0].clientX, e.touches[0].clientY);
   }, [updatePos]);
 
-  // background-position for the zoomed image inside the lens:
-  // When the lens centre is at (px, py) inside a container of (W, H),
-  // we want the zoom image (ZOOM * W  ×  ZOOM * H) to be shifted so that
-  // point (px*ZOOM, py*ZOOM) lands at the centre of the lens.
-  const bgX = -(pos.x * ZOOM - LENS_SIZE / 2);
-  const bgY = -(pos.y * ZOOM - LENS_SIZE / 2);
+  // ── compute lens background directly (no nested component) ─────────────────
+  let lensBg: React.CSSProperties = {};
+  if (natural.w && containerSize.w) {
+    const rect = getContainedRect(containerSize.w, containerSize.h, natural.w, natural.h);
+    const relX = pos.x - rect.x;
+    const relY = pos.y - rect.y;
+    const bsW = rect.w * ZOOM;
+    const bsH = rect.h * ZOOM;
+    const bpX = -(relX * ZOOM - LENS_SIZE / 2);
+    const bpY = -(relY * ZOOM - LENS_SIZE / 2);
+    lensBg = {
+      backgroundImage: `url(${image})`,
+      backgroundRepeat: "no-repeat",
+      backgroundSize: `${bsW}px ${bsH}px`,
+      backgroundPosition: `${bpX}px ${bpY}px`,
+    };
+  }
 
   return (
     <div style={{ display: "flex", flexDirection: "column", gap: "12px", width: "100%", flex: "1 1 0", minWidth: 0 }}>
@@ -64,8 +135,8 @@ function MashrabiyaPanel({
         </span>
       </div>
 
-      {/* image container — fixed square via paddingBottom trick so both panels are identical */}
-      <div style={{ position: "relative", width: "100%", paddingBottom: "133%"/* 3:4 */ }}>
+      {/* image container */}
+      <div style={{ position: "relative", width: "100%", paddingBottom: "133%" }}>
         <div
           ref={containerRef}
           onMouseMove={onMouseMove}
@@ -87,69 +158,56 @@ function MashrabiyaPanel({
             background: "#f5f2ec",
           }}
         >
-          {/* ── BASE IMAGE via background-image so we keep full quality without Next/Image cropping issues ── */}
-          <div
-            style={{
-              position: "absolute", inset: 0,
-              backgroundImage: `url(${image})`,
-              backgroundSize: "contain",
-              backgroundRepeat: "no-repeat",
-              backgroundPosition: "center",
-            }}
-          />
+          {/* Base image as background */}
+          <div style={{
+            position: "absolute", inset: 0,
+            backgroundImage: `url(${image})`,
+            backgroundSize: "contain",
+            backgroundRepeat: "no-repeat",
+            backgroundPosition: "center",
+          }} />
 
-          {/* ── LENS ── */}
-          <div
-            style={{
-              position: "absolute",
-              width: LENS_SIZE,
-              height: LENS_SIZE,
-              borderRadius: "50%",
-              left: pos.x - LENS_SIZE / 2,
-              top:  pos.y - LENS_SIZE / 2,
-              overflow: "hidden",
-              border: `2px solid rgba(${accentRgb},0.9)`,
-              boxShadow: `0 0 0 1px rgba(${accentRgb},0.25), 0 8px 28px rgba(0,0,0,0.55)`,
-              opacity: hovered ? 1 : 0,
-              transition: "opacity 0.18s ease",
-              pointerEvents: "none",
-              zIndex: 10,
-              // zoomed background
-              backgroundImage: `url(${image})`,
-              backgroundRepeat: "no-repeat",
-              backgroundSize: "contain",   // will be overridden below after we know W/H
-            }}
-          >
-            {/* We use a child div with exact background-size to zoom */}
-            <ZoomedView image={image} bgX={bgX} bgY={bgY} containerRef={containerRef} lensSize={LENS_SIZE} />
-
-            {/* crosshair */}
+          {/* Lens — bg computed directly on this element */}
+          <div style={{
+            position: "absolute",
+            width: LENS_SIZE,
+            height: LENS_SIZE,
+            borderRadius: "50%",
+            left: pos.x - LENS_SIZE / 2,
+            top:  pos.y - LENS_SIZE / 2,
+            overflow: "hidden",
+            border: `2px solid rgba(${accentRgb},0.9)`,
+            boxShadow: `0 0 0 1px rgba(${accentRgb},0.25), 0 8px 28px rgba(0,0,0,0.55)`,
+            opacity: hovered ? 1 : 0,
+            transition: "opacity 0.18s ease",
+            pointerEvents: "none",
+            zIndex: 10,
+            ...lensBg,
+          }}>
+            {/* Crosshair */}
             <div style={{ position: "absolute", inset: 0, pointerEvents: "none" }}>
               <div style={{ position: "absolute", top: "50%", left: 0, right: 0, height: "1px", background: `rgba(${accentRgb},0.5)`, transform: "translateY(-50%)" }} />
               <div style={{ position: "absolute", left: "50%", top: 0, bottom: 0, width: "1px", background: `rgba(${accentRgb},0.5)`, transform: "translateX(-50%)" }} />
             </div>
           </div>
 
-          {/* corner brackets around the lens */}
-          {hovered && (
-            <CornerBrackets x={pos.x} y={pos.y} size={LENS_SIZE} />
-          )}
+          {/* Corner brackets */}
+          {hovered && <CornerBrackets x={pos.x} y={pos.y} size={LENS_SIZE} />}
 
-          {/* hint badge */}
+          {/* Hint badge */}
           <div style={{
             position: "absolute", bottom: 12, right: 12,
             background: "rgba(10,8,0,0.55)",
             border: `1px solid rgba(${accentRgb},0.3)`,
             borderRadius: "8px", padding: "4px 10px",
             backdropFilter: "blur(8px)", zIndex: 5, pointerEvents: "none",
-            transition: "opacity 0.2s",
           }}>
             <span style={{ fontSize: "7px", fontFamily: "monospace", letterSpacing: "0.35em", textTransform: "uppercase", color: `rgba(${accentRgb},0.85)` }}>
               {hovered ? `×${ZOOM} ZOOM` : "HOVER TO ZOOM"}
             </span>
           </div>
 
-          {/* vignette */}
+          {/* Vignette */}
           <div style={{ position: "absolute", inset: 0, pointerEvents: "none", background: "radial-gradient(ellipse at center, transparent 60%, rgba(0,0,0,0.12) 100%)" }} />
         </div>
       </div>
@@ -159,67 +217,6 @@ function MashrabiyaPanel({
         {label}
       </p>
     </div>
-  );
-}
-
-// Zoomed content inside the lens — uses background-size in px once we know the container size
-function ZoomedView({
-  image, bgX, bgY, containerRef, lensSize,
-}: {
-  image: string;
-  bgX: number;
-  bgY: number;
-  containerRef: React.RefObject<HTMLDivElement | null>;
-  lensSize: number;
-}) {
-  const [dims, setDims] = useState({ w: 0, h: 0 });
-
-  useEffect(() => {
-    const measure = () => {
-      if (containerRef.current) {
-        setDims({ w: containerRef.current.offsetWidth, h: containerRef.current.offsetHeight });
-      }
-    };
-    measure();
-    window.addEventListener("resize", measure);
-    return () => window.removeEventListener("resize", measure);
-  }, [containerRef]);
-
-  if (!dims.w || !dims.h) return null;
-
-  // The base image is rendered with background-size:contain inside (dims.w × dims.h).
-  // We need to know the actual rendered image rect (letterboxed).
-  // Assume image natural ratio close to the container — we'll use the full container dims
-  // scaled by ZOOM, offset so the hovered point appears at lens centre.
-  return (
-    <div style={{
-      position: "absolute", inset: 0,
-      backgroundImage: `url(${image})`,
-      backgroundRepeat: "no-repeat",
-      backgroundSize: `${dims.w * ZOOM}px ${dims.h * ZOOM}px`,
-      backgroundPosition: `${bgX}px ${bgY}px`,
-      imageRendering: "auto",
-    }} />
-  );
-}
-
-function CornerBrackets({ x, y, size }: { x: number; y: number; size: number }) {
-  const half = size / 2 + 6;
-  const s = 16;
-  const t = 2;
-  const c = accent;
-  const corners = [
-    { top: y - half,        left: x - half,        borderTop: `${t}px solid ${c}`, borderLeft:   `${t}px solid ${c}` },
-    { top: y - half,        left: x + half - s,     borderTop: `${t}px solid ${c}`, borderRight:  `${t}px solid ${c}` },
-    { top: y + half - s,    left: x - half,        borderBottom:`${t}px solid ${c}`, borderLeft:  `${t}px solid ${c}` },
-    { top: y + half - s,    left: x + half - s,    borderBottom:`${t}px solid ${c}`, borderRight: `${t}px solid ${c}` },
-  ];
-  return (
-    <>
-      {corners.map((style, i) => (
-        <div key={i} style={{ position: "absolute", width: s, height: s, pointerEvents: "none", zIndex: 11, ...style }} />
-      ))}
-    </>
   );
 }
 

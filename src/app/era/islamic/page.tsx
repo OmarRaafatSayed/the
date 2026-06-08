@@ -27,7 +27,7 @@ const monuments = [
     subtitle: "OUR PROJECT — WOOD CONSERVATION",
     location: "Cairo, Egypt",
     period: "12th Century",
-    image: "/images/slide4/before.jpg",
+    image: "/images/hero/cover.jpg",
     link: "/era/islamic/mashrabiya",
     isProject: true,
     tag: "CASE STUDY",
