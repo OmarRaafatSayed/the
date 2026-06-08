@@ -2,6 +2,7 @@
 import type {Metadata} from 'next';
 import './globals.css';
 import { Toaster } from "@/components/ui/toaster";
+// import { ChatbotRoot } from "@/components/chatbot/ChatbotRoot"; // temporarily hidden
 
 export const metadata: Metadata = {
   title: 'Mashrabiya Heritage | Islamic Architectural Conservation',
@@ -23,6 +24,8 @@ export default function RootLayout({
       <body className="font-body antialiased">
         {children}
         <Toaster />
+        {/* Archaeology Chatbot — floating button fixed at bottom-right on all pages */}
+        {/* <ChatbotRoot /> */}{/* temporarily hidden */}
       </body>
     </html>
   );

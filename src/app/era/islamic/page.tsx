@@ -159,7 +159,7 @@ export default function IslamicEraHub() {
 
         {/* Top accent bar + symbols */}
         <div className="absolute top-0 left-0 right-0 z-10" style={{ height: "3px", background: accent }} />
-        <div className="absolute top-3 left-0 right-0 z-10 flex gap-5 px-8 py-3 overflow-hidden"
+        <div className="absolute top-3 left-0 right-0 z-10 hidden sm:flex gap-5 px-8 py-3 overflow-hidden"
           style={{ borderBottom: `1px solid rgba(${accentRgb},0.1)` }}>
           {geometricSymbols.map((g, i) => (
             <span key={i} className="text-base select-none"
@@ -173,11 +173,11 @@ export default function IslamicEraHub() {
           ))}
         </div>
 
-        <div className="relative z-20 px-8 md:px-16 lg:px-24 pb-20 pt-40">
+        <div className="relative z-20 px-5 sm:px-8 md:px-16 lg:px-24 pb-16 sm:pb-20 pt-32 sm:pt-40">
           <div className="max-w-screen-2xl mx-auto">
             {/* Back */}
             <div style={{ opacity: entered ? 1 : 0, transform: entered ? "none" : "translateY(-10px)", transition: "all 0.8s ease 0.1s" }}>
-              <Link href="/" className="inline-flex items-center gap-3 mb-12 group"
+              <Link href="/" className="inline-flex items-center gap-3 mb-8 sm:mb-12 group"
                 style={{ color: `rgba(${accentRgb},0.55)`, fontSize: "9px", fontFamily: "monospace", letterSpacing: "0.45em", textTransform: "uppercase", textDecoration: "none" }}>
                 <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="group-hover:-translate-x-1 transition-transform">
                   <path d="M19 12H5M5 12l7-7M5 12l7 7" />
@@ -186,34 +186,34 @@ export default function IslamicEraHub() {
               </Link>
             </div>
 
-            <div className="grid lg:grid-cols-[1fr_auto] gap-16 items-end">
+            <div className="grid lg:grid-cols-[1fr_auto] gap-8 lg:gap-16 items-end">
               <div>
                 <div style={{ opacity: entered ? 1 : 0, transform: entered ? "none" : "translateX(-20px)", transition: "all 0.9s cubic-bezier(0.16,1,0.3,1) 0.2s" }}>
-                  <div className="flex items-center gap-4 mb-6">
-                    <span style={{ fontSize: "9px", fontFamily: "monospace", letterSpacing: "0.5em", color: accent, textTransform: "uppercase" }}>
+                  <div className="flex items-center gap-3 sm:gap-4 mb-4 sm:mb-6">
+                    <span style={{ fontSize: "8px", fontFamily: "monospace", letterSpacing: "0.4em", color: accent, textTransform: "uppercase" }}>
                       ERA_REF_003 — ISLAMIC_ARCHIVE
                     </span>
-                    <div style={{ height: "1px", width: "60px", background: `rgba(${accentRgb},0.3)` }} />
+                    <div style={{ height: "1px", width: "40px", background: `rgba(${accentRgb},0.3)` }} />
                   </div>
                 </div>
                 <div style={{ opacity: entered ? 1 : 0, transform: entered ? "none" : "translateY(50px)", transition: "all 1.1s cubic-bezier(0.16,1,0.3,1) 0.3s" }}>
-                  <h1 className="font-headline font-bold leading-[0.85]" style={{ fontSize: "clamp(4rem,10vw,9rem)", color: "#fff" }}>
+                  <h1 className="font-headline font-bold leading-[0.85]" style={{ fontSize: "clamp(3rem,10vw,9rem)", color: "#fff" }}>
                     ISLAMIC<br />
                     <span style={{ color: accent, fontStyle: "italic" }}>HERITAGE</span>
                   </h1>
                 </div>
                 <div style={{ opacity: entered ? 1 : 0, transform: entered ? "none" : "translateY(20px)", transition: "all 1s ease 0.6s" }}>
-                  <div className="flex items-center gap-6 mt-8">
-                    <div style={{ height: "1px", width: "40px", background: accent }} />
-                    <p style={{ fontSize: "11px", fontFamily: "monospace", letterSpacing: "0.4em", color: "rgba(255,255,255,0.4)", textTransform: "uppercase" }}>
+                  <div className="flex items-center gap-4 sm:gap-6 mt-6 sm:mt-8">
+                    <div style={{ height: "1px", width: "32px", background: accent }} />
+                    <p style={{ fontSize: "10px", fontFamily: "monospace", letterSpacing: "0.3em", color: "rgba(255,255,255,0.4)", textTransform: "uppercase" }}>
                       641 AD — 1517 AD · The Science of Geometry
                     </p>
                   </div>
                 </div>
               </div>
-              {/* Symbol */}
-              <div style={{ opacity: entered ? 1 : 0, transform: entered ? "scale(1) rotate(0deg)" : "scale(0.5) rotate(-45deg)", transition: "all 1.2s cubic-bezier(0.16,1,0.3,1) 0.5s" }}>
-                <span style={{ fontSize: "clamp(6rem,12vw,10rem)", color: accent, textShadow: `0 0 80px ${accent}60,0 0 160px ${accent}30`, display: "block", lineHeight: 1 }}>☽</span>
+              {/* Symbol — hidden on small screens */}
+              <div className="hidden sm:block" style={{ opacity: entered ? 1 : 0, transform: entered ? "scale(1) rotate(0deg)" : "scale(0.5) rotate(-45deg)", transition: "all 1.2s cubic-bezier(0.16,1,0.3,1) 0.5s" }}>
+                <span style={{ fontSize: "clamp(5rem,10vw,10rem)", color: accent, textShadow: `0 0 80px ${accent}60,0 0 160px ${accent}30`, display: "block", lineHeight: 1 }}>☽</span>
                 <p style={{ fontSize: "8px", fontFamily: "monospace", letterSpacing: "0.4em", color: `rgba(${accentRgb},0.4)`, textAlign: "center", marginTop: "8px", textTransform: "uppercase" }}>Crescent</p>
               </div>
             </div>
@@ -223,11 +223,11 @@ export default function IslamicEraHub() {
 
       {/* ── STATS ── */}
       <section style={{ borderTop: `1px solid rgba(${accentRgb},0.12)`, borderBottom: `1px solid rgba(${accentRgb},0.12)`, background: `rgba(${accentRgb},0.04)` }}>
-        <div className="max-w-screen-2xl mx-auto px-8 md:px-16 lg:px-24 py-8">
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
+        <div className="max-w-screen-2xl mx-auto px-5 sm:px-8 md:px-16 lg:px-24 py-6 sm:py-8">
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-5 sm:gap-8">
             {facts.map((f, i) => (
               <div key={i} style={{ opacity: entered ? 1 : 0, transform: entered ? "none" : "translateY(20px)", transition: `all 0.8s ease ${0.8 + i * 0.1}s` }}>
-                <p className="font-headline font-bold" style={{ fontSize: "2.2rem", color: accent }}>{f.value}</p>
+                <p className="font-headline font-bold" style={{ fontSize: "clamp(1.6rem,5vw,2.2rem)", color: accent }}>{f.value}</p>
                 <p style={{ fontSize: "8px", fontFamily: "monospace", letterSpacing: "0.3em", color: "rgba(255,255,255,0.3)", textTransform: "uppercase", marginTop: "4px" }}>{f.label}</p>
               </div>
             ))}
@@ -236,34 +236,33 @@ export default function IslamicEraHub() {
       </section>
 
       {/* ── INTRO TEXT ── */}
-      <section className="max-w-screen-2xl mx-auto px-8 md:px-16 lg:px-24 pt-24 pb-16">
-        <div className="grid lg:grid-cols-[1fr_2fr] gap-16 items-start">
+      <section className="max-w-screen-2xl mx-auto px-5 sm:px-8 md:px-16 lg:px-24 pt-14 sm:pt-24 pb-10 sm:pb-16">
+        <div className="grid lg:grid-cols-[1fr_2fr] gap-8 lg:gap-16 items-start">
           <div>
-            <div className="flex items-center gap-4 mb-4">
-              <div style={{ height: "1px", width: "32px", background: accent }} />
+            <div className="flex items-center gap-3 sm:gap-4 mb-4">
+              <div style={{ height: "1px", width: "28px", background: accent }} />
               <span style={{ fontSize: "9px", fontFamily: "monospace", letterSpacing: "0.5em", color: accent, textTransform: "uppercase" }}>About_The_Era</span>
             </div>
-            <h2 className="font-headline font-bold" style={{ fontSize: "clamp(2rem,4vw,3rem)", color: "#fff", lineHeight: 1.1 }}>
+            <h2 className="font-headline font-bold" style={{ fontSize: "clamp(1.6rem,4vw,3rem)", color: "#fff", lineHeight: 1.1 }}>
               The Science<br /><span style={{ color: accent, fontStyle: "italic" }}>of Geometry</span>
             </h2>
           </div>
-          <p style={{ color: "rgba(255,255,255,0.55)", lineHeight: 1.9, fontSize: "1.05rem", paddingTop: "8px" }}>
+          <p style={{ color: "rgba(255,255,255,0.55)", lineHeight: 1.9, fontSize: "clamp(0.9rem,2vw,1.05rem)", paddingTop: "8px" }}>
             Islamic architecture represents one of history's most sophisticated visual languages — a fusion of mathematics, spirituality, and craft. From the intricate muqarnas of Mamluk Cairo to the geometric tile-work of Andalusian palaces, every surface encodes a system of proportion and meaning. This archive documents the monuments, elements, and conservation studies that define this era's architectural legacy.
           </p>
         </div>
       </section>
 
       {/* ── MONUMENTS GALLERY ── */}
-      <section className="max-w-screen-2xl mx-auto px-8 md:px-16 lg:px-24 pb-32">
-        <div className="flex items-center gap-4 mb-12">
-          <div style={{ height: "1px", width: "32px", background: accent }} />
+      <section className="max-w-screen-2xl mx-auto px-5 sm:px-8 md:px-16 lg:px-24 pb-20 sm:pb-32">
+        <div className="flex items-center gap-3 sm:gap-4 mb-8 sm:mb-12">
+          <div style={{ height: "1px", width: "28px", background: accent }} />
           <span style={{ fontSize: "9px", fontFamily: "monospace", letterSpacing: "0.5em", color: accent, textTransform: "uppercase" }}>Archive_Catalogue</span>
           <div style={{ height: "1px", flex: 1, background: `rgba(${accentRgb},0.1)` }} />
           <span style={{ fontSize: "9px", fontFamily: "monospace", letterSpacing: "0.3em", color: "rgba(255,255,255,0.2)", textTransform: "uppercase" }}>{monuments.length}_ENTRIES</span>
         </div>
 
-        {/* All monuments in a uniform grid — Mashrabiya is just the first card */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
           {monuments.map((m, i) => (
             <MonumentCard
               key={m.id}
@@ -282,8 +281,8 @@ export default function IslamicEraHub() {
       </section>
 
       {/* ── FOOTER ── */}
-      <footer style={{ borderTop: `1px solid rgba(${accentRgb},0.1)`, padding: "40px 0 24px" }}>
-        <div className="max-w-screen-2xl mx-auto px-8 md:px-16 lg:px-24 flex flex-col md:flex-row justify-between items-center gap-6">
+      <footer style={{ borderTop: `1px solid rgba(${accentRgb},0.1)`, padding: "32px 0 20px" }}>
+        <div className="max-w-screen-2xl mx-auto px-5 sm:px-8 md:px-16 lg:px-24 flex flex-col md:flex-row justify-between items-center gap-4 sm:gap-6">
           <div>
             <p style={{ fontSize: "9px", fontFamily: "monospace", letterSpacing: "0.4em", color: accent, textTransform: "uppercase", fontStyle: "italic" }}>
               Digital Forensic Record & Conservation Archive
@@ -292,7 +291,7 @@ export default function IslamicEraHub() {
               Archive Version 1.0.8 — © 2024 Heritage Systems
             </p>
           </div>
-          <div className="flex gap-8">
+          <div className="flex gap-6 sm:gap-8">
             {["Methodology", "Ethics_Charter"].map((item) => (
               <span key={item}
                 style={{ fontSize: "9px", fontFamily: "monospace", letterSpacing: "0.3em", color: "rgba(255,255,255,0.3)", textTransform: "uppercase", cursor: "pointer", transition: "color 0.3s" }}
@@ -326,7 +325,7 @@ function MonumentCard({
       href={monument.link}
       className="relative overflow-hidden rounded-2xl group cursor-pointer block"
       style={{
-        height: tall ? "380px" : "320px",
+        height: "clamp(240px, 45vw, 320px)",
         border: `1px solid rgba(${accentRgb},${hovered ? "0.3" : "0.1"})`,
         opacity: entered ? 1 : 0,
         transform: entered ? "none" : "translateY(30px)",

@@ -1,8 +1,9 @@
-
 "use client";
 
-import { useState, useRef, MouseEvent } from "react";
-import Image from "next/image";
+import { useState, useRef, useCallback, useEffect } from "react";
+
+const accent = "#C9A84C";
+const accentRgb = "201,168,76";
 
 interface MacroMicroSectionProps {
   macroImg: string;
@@ -13,127 +14,289 @@ interface MacroMicroSectionProps {
   microLabel: string;
 }
 
-export function MacroMicroSection({
-  macroImg,
-  microImg,
-  title,
-  subtitle,
-  macroLabel,
-  microLabel
-}: MacroMicroSectionProps) {
-  const [position, setPosition] = useState({ x: 50, y: 50 });
+const ZOOM = 4;
+const LENS_SIZE = 180; // px
+
+function MashrabiyaPanel({
+  image,
+  label,
+  tag,
+}: {
+  image: string;
+  label: string;
+  tag: string;
+}) {
   const containerRef = useRef<HTMLDivElement>(null);
+  // raw pixel coords relative to the container
+  const [pos, setPos] = useState({ x: 0, y: 0 });
+  const [hovered, setHovered] = useState(false);
 
-  const handleMouseMove = (e: MouseEvent) => {
-    if (!containerRef.current) return;
-
-    const rect = containerRef.current.getBoundingClientRect();
-    const x = ((e.clientX - rect.left) / rect.width) * 100;
-    const y = ((e.clientY - rect.top) / rect.height) * 100;
-
-    // Constrain position within bounds
-    setPosition({
-      x: Math.min(100, Math.max(0, x)),
-      y: Math.min(100, Math.max(0, y)),
+  const updatePos = useCallback((clientX: number, clientY: number) => {
+    const el = containerRef.current;
+    if (!el) return;
+    const r = el.getBoundingClientRect();
+    setPos({
+      x: Math.max(0, Math.min(r.width,  clientX - r.left)),
+      y: Math.max(0, Math.min(r.height, clientY - r.top)),
     });
-  };
+  }, []);
+
+  const onMouseMove = useCallback((e: React.MouseEvent) => updatePos(e.clientX, e.clientY), [updatePos]);
+  const onTouchMove  = useCallback((e: React.TouchEvent) => {
+    e.preventDefault();
+    updatePos(e.touches[0].clientX, e.touches[0].clientY);
+  }, [updatePos]);
+
+  // background-position for the zoomed image inside the lens:
+  // When the lens centre is at (px, py) inside a container of (W, H),
+  // we want the zoom image (ZOOM * W  ×  ZOOM * H) to be shifted so that
+  // point (px*ZOOM, py*ZOOM) lands at the centre of the lens.
+  const bgX = -(pos.x * ZOOM - LENS_SIZE / 2);
+  const bgY = -(pos.y * ZOOM - LENS_SIZE / 2);
 
   return (
-    <section className="museum-slide flex flex-col items-center justify-center p-4 md:p-12 bg-background min-h-screen">
-      <div className="w-full max-w-[1600px] space-y-12 relative px-8 md:px-16">
-        {/* Header */}
-        <div className="text-center space-y-2">
-          <span className="text-[10px] font-bold uppercase tracking-[0.5em] text-primary/60">{subtitle}</span>
-          <h2 className="text-5xl font-headline font-bold text-foreground italic">{title}</h2>
-        </div>
+    <div style={{ display: "flex", flexDirection: "column", gap: "12px", width: "100%", flex: "1 1 0", minWidth: 0 }}>
+      {/* tag */}
+      <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
+        <div style={{ height: "1px", width: "20px", background: `rgba(${accentRgb},0.4)` }} />
+        <span style={{ fontSize: "8px", fontFamily: "monospace", letterSpacing: "0.45em", textTransform: "uppercase", color: `rgba(${accentRgb},0.7)` }}>
+          {tag}
+        </span>
+      </div>
 
-        {/* Comparison Layout */}
-        <div className="grid lg:grid-cols-[1fr_1fr] gap-12 md:gap-20 items-center relative h-[70vh]">
-          
-          {/* Left Panel: Interactive Macro View */}
-          <div className="relative h-full group animate-in fade-in slide-in-from-left-12 duration-1000">
-            <div className="absolute -top-10 left-0 text-[10px] font-mono tracking-widest text-foreground/40 uppercase font-bold">
-              {macroLabel}
+      {/* image container — fixed square via paddingBottom trick so both panels are identical */}
+      <div style={{ position: "relative", width: "100%", paddingBottom: "133%"/* 3:4 */ }}>
+        <div
+          ref={containerRef}
+          onMouseMove={onMouseMove}
+          onMouseEnter={() => setHovered(true)}
+          onMouseLeave={() => setHovered(false)}
+          onTouchMove={onTouchMove}
+          onTouchStart={(e) => { setHovered(true); updatePos(e.touches[0].clientX, e.touches[0].clientY); }}
+          onTouchEnd={() => setHovered(false)}
+          style={{
+            position: "absolute", inset: 0,
+            borderRadius: "1.75rem",
+            border: `1px solid rgba(${accentRgb},${hovered ? "0.45" : "0.15"})`,
+            overflow: "hidden",
+            cursor: "crosshair",
+            boxShadow: hovered
+              ? `0 24px 64px rgba(0,0,0,0.28), 0 0 0 1.5px rgba(${accentRgb},0.35)`
+              : "0 8px 32px rgba(0,0,0,0.15)",
+            transition: "box-shadow 0.35s ease, border-color 0.35s ease",
+            background: "#f5f2ec",
+          }}
+        >
+          {/* ── BASE IMAGE via background-image so we keep full quality without Next/Image cropping issues ── */}
+          <div
+            style={{
+              position: "absolute", inset: 0,
+              backgroundImage: `url(${image})`,
+              backgroundSize: "contain",
+              backgroundRepeat: "no-repeat",
+              backgroundPosition: "center",
+            }}
+          />
+
+          {/* ── LENS ── */}
+          <div
+            style={{
+              position: "absolute",
+              width: LENS_SIZE,
+              height: LENS_SIZE,
+              borderRadius: "50%",
+              left: pos.x - LENS_SIZE / 2,
+              top:  pos.y - LENS_SIZE / 2,
+              overflow: "hidden",
+              border: `2px solid rgba(${accentRgb},0.9)`,
+              boxShadow: `0 0 0 1px rgba(${accentRgb},0.25), 0 8px 28px rgba(0,0,0,0.55)`,
+              opacity: hovered ? 1 : 0,
+              transition: "opacity 0.18s ease",
+              pointerEvents: "none",
+              zIndex: 10,
+              // zoomed background
+              backgroundImage: `url(${image})`,
+              backgroundRepeat: "no-repeat",
+              backgroundSize: "contain",   // will be overridden below after we know W/H
+            }}
+          >
+            {/* We use a child div with exact background-size to zoom */}
+            <ZoomedView image={image} bgX={bgX} bgY={bgY} containerRef={containerRef} lensSize={LENS_SIZE} />
+
+            {/* crosshair */}
+            <div style={{ position: "absolute", inset: 0, pointerEvents: "none" }}>
+              <div style={{ position: "absolute", top: "50%", left: 0, right: 0, height: "1px", background: `rgba(${accentRgb},0.5)`, transform: "translateY(-50%)" }} />
+              <div style={{ position: "absolute", left: "50%", top: 0, bottom: 0, width: "1px", background: `rgba(${accentRgb},0.5)`, transform: "translateX(-50%)" }} />
             </div>
-            <div 
-              ref={containerRef}
-              onMouseMove={handleMouseMove}
-              className="relative w-full h-full overflow-hidden rounded-[2rem] border border-foreground/5 shadow-2xl bg-black/5 cursor-crosshair"
-            >
-              <Image 
-                src={macroImg} 
-                alt="Macro View" 
-                fill 
-                className="object-contain transition-all duration-700"
-                quality={100}
-                sizes="(max-width: 1600px) 50vw, 800px"
-                priority
-                draggable={false}
-              />
-              <div className="absolute inset-0 bg-primary/5 pointer-events-none" />
-              
-              {/* Interactive Lens / Highlight Frame */}
-              <div 
-                className="absolute w-40 h-40 border-2 border-primary shadow-[0_0_30px_rgba(211,84,0,0.5)] z-20 pointer-events-none transition-transform duration-75 ease-out"
-                style={{ 
-                  left: `${position.x}%`, 
-                  top: `${position.y}%`,
-                  transform: 'translate(-50%, -50%)'
-                }}
-              >
-                <div className="absolute -top-4 -left-4 w-8 h-8 border-t-2 border-l-2 border-primary" />
-                <div className="absolute -bottom-4 -right-4 w-8 h-8 border-b-2 border-r-2 border-primary" />
-              </div>
-            </div>
-            <p className="mt-4 text-[10px] font-mono tracking-widest text-foreground/50 uppercase text-center font-bold">Inspect_Protocol: Hover_to_analyze_structural_decay</p>
           </div>
 
-          {/* Right Panel: Micro View (Zooms based on mouse) */}
-          <div className="relative h-full animate-in fade-in slide-in-from-right-12 duration-1000 delay-300">
-            <div className="absolute -top-10 right-0 text-[10px] font-mono tracking-widest text-primary uppercase font-bold">
-              {microLabel}
-            </div>
-            <div className="relative w-full h-full overflow-hidden rounded-[2rem] border-2 border-primary/20 shadow-2xl bg-black/5">
-              {/* High-quality zoom using Next.js Image + CSS transform */}
-              <div
-                className="absolute inset-0 overflow-hidden"
-                style={{ borderRadius: "inherit" }}
-              >
-                <div
-                  className="absolute w-full h-full transition-all duration-150 ease-out"
-                  style={{
-                    transform: `scale(4) translate(${-(position.x - 50) * 0.5}%, ${-(position.y - 50) * 0.5}%)`,
-                    transformOrigin: `${position.x}% ${position.y}%`,
-                    imageRendering: "auto",
-                    willChange: "transform",
-                  }}
-                >
-                  <Image
-                    src={microImg}
-                    alt="Micro View"
-                    fill
-                    className="object-cover"
-                    quality={100}
-                    sizes="(max-width: 1600px) 50vw, 800px"
-                    draggable={false}
-                    priority
-                  />
-                </div>
-              </div>
-              <div className="absolute inset-0 shadow-[inset_0_0_60px_rgba(0,0,0,0.2)] pointer-events-none rounded-[2rem]" />
+          {/* corner brackets around the lens */}
+          {hovered && (
+            <CornerBrackets x={pos.x} y={pos.y} size={LENS_SIZE} />
+          )}
 
-              {/* Scale Indicator */}
-              <div className="absolute bottom-8 right-8 flex flex-col items-end gap-2 bg-black/40 backdrop-blur-md p-4 rounded-xl border border-white/10">
-                <div className="h-[2px] w-16 bg-primary" />
-                <span className="text-[9px] font-mono tracking-tighter text-white font-bold">500μm | MAG_400X_DYNAMIC</span>
-              </div>
-            </div>
-            <p className="mt-4 text-[10px] font-mono tracking-widest text-primary uppercase text-center font-bold">Verified_Zoom: Forensic_characterization_active</p>
+          {/* hint badge */}
+          <div style={{
+            position: "absolute", bottom: 12, right: 12,
+            background: "rgba(10,8,0,0.55)",
+            border: `1px solid rgba(${accentRgb},0.3)`,
+            borderRadius: "8px", padding: "4px 10px",
+            backdropFilter: "blur(8px)", zIndex: 5, pointerEvents: "none",
+            transition: "opacity 0.2s",
+          }}>
+            <span style={{ fontSize: "7px", fontFamily: "monospace", letterSpacing: "0.35em", textTransform: "uppercase", color: `rgba(${accentRgb},0.85)` }}>
+              {hovered ? `×${ZOOM} ZOOM` : "HOVER TO ZOOM"}
+            </span>
           </div>
+
+          {/* vignette */}
+          <div style={{ position: "absolute", inset: 0, pointerEvents: "none", background: "radial-gradient(ellipse at center, transparent 60%, rgba(0,0,0,0.12) 100%)" }} />
         </div>
       </div>
-        {/* Background Decorative Element */}
-        <div className="absolute -z-10 top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full h-full border border-foreground/5 rounded-full opacity-20 pointer-events-none scale-150" />
+
+      {/* label */}
+      <p style={{ textAlign: "center", fontSize: "9px", fontFamily: "monospace", letterSpacing: "0.35em", textTransform: "uppercase", color: `rgba(${accentRgb},0.6)` }}>
+        {label}
+      </p>
+    </div>
+  );
+}
+
+// Zoomed content inside the lens — uses background-size in px once we know the container size
+function ZoomedView({
+  image, bgX, bgY, containerRef, lensSize,
+}: {
+  image: string;
+  bgX: number;
+  bgY: number;
+  containerRef: React.RefObject<HTMLDivElement | null>;
+  lensSize: number;
+}) {
+  const [dims, setDims] = useState({ w: 0, h: 0 });
+
+  useEffect(() => {
+    const measure = () => {
+      if (containerRef.current) {
+        setDims({ w: containerRef.current.offsetWidth, h: containerRef.current.offsetHeight });
+      }
+    };
+    measure();
+    window.addEventListener("resize", measure);
+    return () => window.removeEventListener("resize", measure);
+  }, [containerRef]);
+
+  if (!dims.w || !dims.h) return null;
+
+  // The base image is rendered with background-size:contain inside (dims.w × dims.h).
+  // We need to know the actual rendered image rect (letterboxed).
+  // Assume image natural ratio close to the container — we'll use the full container dims
+  // scaled by ZOOM, offset so the hovered point appears at lens centre.
+  return (
+    <div style={{
+      position: "absolute", inset: 0,
+      backgroundImage: `url(${image})`,
+      backgroundRepeat: "no-repeat",
+      backgroundSize: `${dims.w * ZOOM}px ${dims.h * ZOOM}px`,
+      backgroundPosition: `${bgX}px ${bgY}px`,
+      imageRendering: "auto",
+    }} />
+  );
+}
+
+function CornerBrackets({ x, y, size }: { x: number; y: number; size: number }) {
+  const half = size / 2 + 6;
+  const s = 16;
+  const t = 2;
+  const c = accent;
+  const corners = [
+    { top: y - half,        left: x - half,        borderTop: `${t}px solid ${c}`, borderLeft:   `${t}px solid ${c}` },
+    { top: y - half,        left: x + half - s,     borderTop: `${t}px solid ${c}`, borderRight:  `${t}px solid ${c}` },
+    { top: y + half - s,    left: x - half,        borderBottom:`${t}px solid ${c}`, borderLeft:  `${t}px solid ${c}` },
+    { top: y + half - s,    left: x + half - s,    borderBottom:`${t}px solid ${c}`, borderRight: `${t}px solid ${c}` },
+  ];
+  return (
+    <>
+      {corners.map((style, i) => (
+        <div key={i} style={{ position: "absolute", width: s, height: s, pointerEvents: "none", zIndex: 11, ...style }} />
+      ))}
+    </>
+  );
+}
+
+// ── Entrance animation ───────────────────────────────────────────────────────
+function Reveal({ children, delay = 0 }: { children: React.ReactNode; delay?: number }) {
+  const ref = useRef<HTMLDivElement>(null);
+  const [vis, setVis] = useState(false);
+  useEffect(() => {
+    const el = ref.current;
+    if (!el) return;
+    const obs = new IntersectionObserver(([e]) => { if (e.isIntersecting) setVis(true); }, { threshold: 0.06 });
+    obs.observe(el);
+    return () => obs.disconnect();
+  }, []);
+  return (
+    <div ref={ref} style={{
+      opacity: vis ? 1 : 0,
+      transform: vis ? "translateY(0)" : "translateY(28px)",
+      transition: `opacity 0.9s ease ${delay}s, transform 0.9s cubic-bezier(0.16,1,0.3,1) ${delay}s`,
+    }}>
+      {children}
+    </div>
+  );
+}
+
+// ── Main export ──────────────────────────────────────────────────────────────
+export function MacroMicroSection({ title, subtitle }: MacroMicroSectionProps) {
+  return (
+    <section className="w-full bg-background py-20 px-5 sm:px-8 md:px-14">
+      {/* Header */}
+      <Reveal>
+        <div style={{ display: "flex", flexDirection: "column", alignItems: "center", textAlign: "center", marginBottom: "3.5rem" }}>
+          <div style={{ display: "flex", alignItems: "center", gap: "12px", marginBottom: "12px" }}>
+            <div style={{ height: "1px", width: "28px", background: `rgba(${accentRgb},0.35)` }} />
+            <span style={{ fontSize: "8px", fontFamily: "monospace", letterSpacing: "0.45em", color: accent, textTransform: "uppercase" }}>
+              {subtitle}
+            </span>
+            <div style={{ height: "1px", width: "28px", background: `rgba(${accentRgb},0.35)` }} />
+          </div>
+          <h2 className="font-headline font-bold" style={{ fontSize: "clamp(1.8rem,4vw,3.2rem)", color: "#1a1400", lineHeight: 1.12, letterSpacing: "-0.01em" }}>
+            Macro to Micro{" "}
+            <span style={{ color: accent, fontStyle: "italic" }}>Visualization</span>
+          </h2>
+          <div style={{ marginTop: "14px", height: "1px", width: "56px", background: `rgba(${accentRgb},0.3)`, borderRadius: "2px" }} />
+          <p style={{ marginTop: "10px", fontSize: "11px", color: "rgba(0,0,0,0.38)", letterSpacing: "0.04em" }}>
+            Hover over each image to magnify and inspect damage signs
+          </p>
+        </div>
+      </Reveal>
+
+      {/* Two equal panels */}
+      <Reveal delay={0.15}>
+        <div style={{ display: "flex", gap: "2.5rem", maxWidth: "960px", margin: "0 auto", alignItems: "flex-start" }}
+          className="flex-col sm:flex-row">
+          <MashrabiyaPanel
+            image="/images/documentation/macro/mashrabiya-ungreased.jpeg"
+            label="Mashrabiya — Ungreased"
+            tag="Unit 01"
+          />
+          <MashrabiyaPanel
+            image="/images/documentation/macro/mashrabiya-greased.jpeg"
+            label="Mashrabiya — Greased"
+            tag="Unit 02"
+          />
+        </div>
+      </Reveal>
+
+      {/* Bottom rule */}
+      <Reveal delay={0.3}>
+        <div style={{ marginTop: "48px", display: "flex", alignItems: "center", justifyContent: "center", gap: "16px", opacity: 0.22 }}>
+          <div style={{ height: "1px", flex: 1, maxWidth: "100px", background: `rgba(${accentRgb},1)` }} />
+          <span style={{ fontSize: "7px", fontFamily: "monospace", letterSpacing: "0.45em", color: "#1a1400", textTransform: "uppercase" }}>
+            Phase_II · Photographic_Documentation
+          </span>
+          <div style={{ height: "1px", flex: 1, maxWidth: "100px", background: `rgba(${accentRgb},1)` }} />
+        </div>
+      </Reveal>
     </section>
   );
 }

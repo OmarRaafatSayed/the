@@ -9,6 +9,7 @@ const accent = "#C9A84C";
 const accentRgb = "201,168,76";
 
 const chapters = [
+  { id: "history",          label: "History" },
   { id: "documentation",    label: "Documentation" },
   { id: "characterization", label: "Characterization" },
   { id: "conservation",     label: "Conservation" },
@@ -58,17 +59,25 @@ function NavbarInner({
     if (!isMashrabiya) return;
     const observers: IntersectionObserver[] = [];
 
-    chapters.forEach(({ id }) => {
-      const el = document.getElementById(id);
-      if (!el) return;
-      const obs = new IntersectionObserver(
-        ([entry]) => { if (entry.isIntersecting) setActive(id); },
-        { threshold: 0.25 }
-      );
-      obs.observe(el);
-      observers.push(obs);
-    });
+    /* ── Active chapter: use scroll position against section tops ── */
+    const updateActive = () => {
+      const scrollY = window.scrollY + window.innerHeight * 0.35;
+      // Walk chapters in reverse so we highlight the last one whose top
+      // is above the current scroll position (i.e. we've scrolled into it).
+      let found = chapters[0].id;
+      for (const { id } of chapters) {
+        const el = document.getElementById(id);
+        if (el && el.getBoundingClientRect().top + window.scrollY <= scrollY) {
+          found = id;
+        }
+      }
+      setActive(found);
+    };
 
+    window.addEventListener("scroll", updateActive, { passive: true });
+    updateActive(); // run once on mount
+
+    /* ── Show/hide chapter pills ── */
     const trigger = document.getElementById("chapters-nav-trigger");
     if (trigger) {
       const showObs = new IntersectionObserver(
@@ -79,7 +88,10 @@ function NavbarInner({
       observers.push(showObs);
     }
 
-    return () => observers.forEach((o) => o.disconnect());
+    return () => {
+      window.removeEventListener("scroll", updateActive);
+      observers.forEach((o) => o.disconnect());
+    };
   }, [isMashrabiya]);
 
   const scrollTo = (id: string) => {
@@ -93,27 +105,26 @@ function NavbarInner({
     <nav
       className="fixed z-50"
       style={{
-        /* float in the center with margin */
         top: "12px",
         left: "50%",
         transform: "translateX(-50%)",
-        width: "calc(100% - 48px)",
+        width: "calc(100% - 24px)",
         maxWidth: "1400px",
         borderRadius: "999px",
         background: "rgba(10,8,0,0.65)",
         border: `1px solid rgba(${accentRgb},0.15)`,
         backdropFilter: "blur(16px)",
         WebkitBackdropFilter: "blur(16px)",
-        padding: "8px 20px",
+        padding: "8px 14px",
       }}
     >
-      <div className="flex items-center justify-between gap-4" style={{ position: "relative" }}>
+      <div className="flex items-center justify-between gap-2" style={{ position: "relative" }}>
 
         {/* ── Left: back button ── */}
         {backLink ? (
           <Link
             href={backLink.href}
-            className="group flex items-center gap-2 flex-shrink-0"
+            className="group flex items-center gap-1.5 flex-shrink-0"
             style={{ textDecoration: "none" }}
           >
             <div
@@ -125,7 +136,7 @@ function NavbarInner({
             >
               <ArrowLeft size={12} color={accent} />
             </div>
-            <span style={{
+            <span className="hidden sm:inline" style={{
               fontSize: "9px", fontFamily: "monospace",
               letterSpacing: "0.4em", textTransform: "uppercase",
               color: `rgba(${accentRgb},0.6)`,
@@ -134,16 +145,12 @@ function NavbarInner({
             </span>
           </Link>
         ) : (
-          <div className="w-24" />
+          <div className="w-7" />
         )}
 
         {/* ── Center: title OR chapter pills ── */}
-        <div
-          className="absolute left-1/2 flex items-center"
-          style={{ transform: "translateX(-50%)" }}
-        >
+        <div className="flex-1 flex items-center justify-center">
           {isMashrabiya ? (
-            /* chapter pills — fade in after hero */
             <div
               style={{
                 opacity: chaptersVisible ? 1 : 0,
@@ -153,7 +160,7 @@ function NavbarInner({
               }}
             >
               <div
-                className="flex items-center gap-1 px-2 py-1"
+                className="flex items-center gap-0.5 sm:gap-1 px-1.5 sm:px-2 py-1"
                 style={{
                   background: "rgba(255,255,255,0.04)",
                   border: `1px solid rgba(${accentRgb},0.18)`,
@@ -171,14 +178,14 @@ function NavbarInner({
                         borderRadius: "999px",
                         border: "none",
                         cursor: "pointer",
-                        padding: "5px 16px",
+                        padding: "5px 10px",
                         transition: "background 0.3s",
                       }}
                     >
                       <span style={{
-                        fontSize: "10px",
+                        fontSize: "9px",
                         fontFamily: "monospace",
-                        letterSpacing: "0.2em",
+                        letterSpacing: "0.1em",
                         textTransform: "uppercase",
                         color: isActive ? "#000" : "rgba(255,255,255,0.4)",
                         fontWeight: isActive ? 700 : 500,
@@ -193,26 +200,25 @@ function NavbarInner({
               </div>
             </div>
           ) : (
-            /* plain title */
             centerTitle && (
-              <div className="flex items-center gap-3">
-                <div style={{ height: "1px", width: "20px", background: `rgba(${accentRgb},0.3)` }} />
+              <div className="flex items-center gap-2 sm:gap-3">
+                <div style={{ height: "1px", width: "16px", background: `rgba(${accentRgb},0.3)` }} />
                 <span style={{
-                  fontSize: "9px", fontFamily: "monospace",
-                  letterSpacing: "0.5em", textTransform: "uppercase",
+                  fontSize: "8px", fontFamily: "monospace",
+                  letterSpacing: "0.4em", textTransform: "uppercase",
                   color: `rgba(${accentRgb},0.75)`,
                   whiteSpace: "nowrap",
                 }}>
                   {centerTitle}
                 </span>
-                <div style={{ height: "1px", width: "20px", background: `rgba(${accentRgb},0.3)` }} />
+                <div style={{ height: "1px", width: "16px", background: `rgba(${accentRgb},0.3)` }} />
               </div>
             )
           )}
         </div>
 
-        {/* ── Right: placeholder to balance layout ── */}
-        <div className="w-24 flex-shrink-0" />
+        {/* ── Right: balance spacer ── */}
+        <div className="w-7 flex-shrink-0" />
 
       </div>
     </nav>

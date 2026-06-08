@@ -49,16 +49,19 @@ firestore-debug.log
 dev.log
 dev_*.log
 
-# large images
-public/images/**/*.jpg
-public/images/**/*.jpeg
-public/images/**/*.png
-!public/images/slide*/*.jpg
-!public/images/slide*/*.jpeg
+# large raw/heic images
+public/images/**/*.heic
+public/images/**/*.HEIC
 
 # temp folders
 مشربيه2/
 .firebase/
+
+# raw images folder (not used by the site)
+Images/
+الدهان/
+مرحله التلف/
+deploy_log.txt
 
 # logs
 dev.log
