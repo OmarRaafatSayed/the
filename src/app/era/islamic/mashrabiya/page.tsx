@@ -10,12 +10,16 @@ import { MashrabiyaSpotlight } from "@/components/MashrabiyaSpotlight";
 import { MechanicalCleaningSection } from "@/components/MechanicalCleaningSection";
 import { GreasedCleaningSection } from "@/components/MechanicalCleaningSection";
 import { ConsolidationSection } from "@/components/ConsolidationSection";
-import { AssemblySection } from "@/components/AssemblySection";
+import { AssemblySection, EmptyFrameAssemblySection } from "@/components/AssemblySection";
 import { AssemblyConsolidationSection } from "@/components/AssemblyConsolidationSection";
 import { CompletionSection } from "@/components/CompletionSection";
+import { CompletionSection2 } from "@/components/CompletionSection2";
 import { MashrabiyaAssemblySection } from "@/components/MashrabiyaAssemblySection";
+import { MashrabiyaAssemblySection2 } from "@/components/MashrabiyaAssemblySection2";
+import { MashrabiyaAssemblySection3 } from "@/components/MashrabiyaAssemblySection3";
 import { PreviousRestorationSection } from "@/components/PreviousRestorationSection";
 import { FtirSection } from "@/components/FtirSection";
+import { XrdEdxIrSection } from "@/components/XrdEdxIrSection";
 import Image from "next/image";
 
 const accent = "#C9A84C";
@@ -692,16 +696,13 @@ export default function MashrabiyaProject() {
             <div
               className="relative w-full rounded-[2rem] overflow-hidden shadow-2xl"
               style={{
-                aspectRatio: "3/4",
                 border: "1px solid rgba(201,168,76,0.12)",
               }}
             >
-              <Image
-                src="/images/slide3-analytical/M.jpg"
+              <img
+                src="/images/slide3-analytical/Frame 15 (1).png"
                 alt="Mashrabiya — Analytical Study"
-                fill
-                className="object-cover"
-                quality={100}
+                style={{ width: "100%", height: "auto", display: "block" }}
               />
               {/* subtle gold bottom glow */}
               <div style={{
@@ -897,6 +898,9 @@ export default function MashrabiyaProject() {
 
           {/* ── FTIR Analysis — Mashrabiya Unit 02 ── */}
           <FtirSection />
+
+          {/* ── XRD · EDX · IR Analysis ── */}
+          <XrdEdxIrSection />
         </div>
 
       </div>
@@ -923,12 +927,20 @@ export default function MashrabiyaProject() {
           <ConsolidationSection />
           {/* ── Assembly with Falling Turnery Parts ── */}
           <AssemblySection />
+          {/* ── Assembly of Empty Frame ── */}
+          <EmptyFrameAssemblySection />
           {/* ── Assembly Consolidation ── */}
           <AssemblyConsolidationSection />
           {/* ── Completion of Wooden Beams for Both Mashrabiyas ── */}
           <CompletionSection />
+          {/* ── Completion of Wooden Beams — Section 2 ── */}
+          <CompletionSection2 />
           {/* ── Assembly of Turnery for Both Mashrabiyas ── */}
           <MashrabiyaAssemblySection />
+          {/* ── Assembly of Turnery — slide 2 ── */}
+          <MashrabiyaAssemblySection2 />
+          {/* ── Assembly of Turnery — slide 3 ── */}
+          <MashrabiyaAssemblySection3 />
 
           {/* ── Painting Layers Gallery ── */}
           <div className="w-screen bg-background border-t border-foreground/5 py-20 px-5 sm:px-8 md:px-16">
@@ -944,7 +956,7 @@ export default function MashrabiyaProject() {
               {/* Title */}
               <div className="text-center mb-12 space-y-3">
                 <h2 className="text-2xl sm:text-4xl md:text-5xl font-headline font-bold leading-tight text-foreground">
-                  طبقات <span style={{ color: accent, fontStyle: "italic" }}>الدهان</span>
+                  Painting <span style={{ color: accent, fontStyle: "italic" }}>Layers</span>
                 </h2>
                 <div style={{ height: "2px", width: "48px", background: `rgba(${accentRgb},0.35)`, borderRadius: "2px", margin: "0 auto" }} />
               </div>
@@ -1002,131 +1014,88 @@ export default function MashrabiyaProject() {
             </div>
           </div>
 
-          {/* ── دهان المشربية with AI ── */}
-          <div className="w-screen bg-background border-t border-foreground/5 py-20 px-5 sm:px-8 md:px-16">
-            {/* Section label */}
-            <div className="flex items-center gap-3 mb-12">
-              <div style={{ height: "1px", width: "24px", background: accent }} />
-              <span style={{ fontSize: "8px", fontFamily: "monospace", letterSpacing: "0.4em", color: accent, textTransform: "uppercase" }}>
-                04 — Conservation · Painting
-              </span>
+          {/* ── Mashrabiya Painting with AI — Unit 2 ── */}
+          <div className="min-h-screen w-screen bg-background border-t border-foreground/5 flex flex-col items-center justify-center py-16 px-5 sm:px-8 md:px-16">
+
+            {/* Header */}
+            <div className="flex flex-col items-center text-center mb-12">
+              <div className="flex items-center gap-3 mb-3">
+                <div style={{ height: "1px", width: "24px", background: `rgba(${accentRgb},0.45)` }} />
+                <span style={{ fontSize: "8px", fontFamily: "monospace", letterSpacing: "0.45em", color: accent, textTransform: "uppercase" }}>
+                  04 — Conservation · Painting
+                </span>
+                <div style={{ height: "1px", width: "24px", background: `rgba(${accentRgb},0.45)` }} />
+              </div>
+              <h2 className="font-headline font-bold" style={{
+                fontSize: "clamp(1.8rem, 4vw, 3.2rem)", color: "#1a1400",
+                lineHeight: 1.12, letterSpacing: "-0.01em",
+              }}>
+                Mashrabiya Painting{" "}
+                <span style={{ color: accent, fontStyle: "italic" }}>with AI</span>
+              </h2>
+              <div style={{ marginTop: "14px", height: "2px", width: "56px", background: `rgba(${accentRgb},0.5)`, borderRadius: "2px" }} />
             </div>
 
-            <div className="w-full max-w-[1300px] mx-auto grid lg:grid-cols-2 gap-12 lg:gap-20 items-center">
-
-              {/* Left — Image */}
-              <div
-                className="relative w-full rounded-[2rem] overflow-hidden shadow-2xl"
-                style={{
-                  border: "1px solid rgba(201,168,76,0.2)",
-                  aspectRatio: "4/5",
-                  background: "#f5f2ec",
-                }}
-              >
-                <Image
-                  src="/images/painting/mashrabiya-painted.jpg"
-                  alt="دهان المشربية"
-                  fill
-                  className="object-cover"
-                  quality={100}
-                  sizes="(max-width: 1024px) 100vw, 50vw"
+            {/* Image */}
+            <div style={{ maxWidth: "860px", width: "100%" }}>
+              <div style={{
+                borderRadius: "1.25rem",
+                overflow: "hidden",
+                border: `1px solid rgba(${accentRgb},0.18)`,
+                boxShadow: "0 8px 40px rgba(0,0,0,0.1)",
+                background: "#faf8f2",
+                width: "100%",
+              }}>
+                <img
+                  src="/images/painting/Frame 18 (1).png"
+                  alt="Mashrabiya Painting with AI — Unit 2"
+                  style={{ width: "100%", height: "auto", display: "block" }}
                 />
-                {/* Gold gradient overlay */}
-                <div style={{
-                  position: "absolute", inset: 0,
-                  background: "linear-gradient(to top, rgba(201,168,76,0.10) 0%, transparent 40%)",
-                  pointerEvents: "none",
-                }} />
-                {/* Badge */}
-                <div style={{
-                  position: "absolute", bottom: "1.2rem", left: "1.4rem",
-                  zIndex: 3, display: "flex", alignItems: "center", gap: "8px",
-                }}>
-                  <div style={{ height: "1px", width: "16px", background: "#C9A84C", opacity: 0.7 }} />
-                  <span style={{
-                    fontSize: "7px", fontFamily: "monospace",
-                    letterSpacing: "0.4em", textTransform: "uppercase",
-                    color: "#C9A84C", opacity: 0.85,
-                  }}>
-                    After_Painting
-                  </span>
-                </div>
               </div>
-
-              {/* Right — Text */}
-              <div className="space-y-8">
-                {/* Label */}
-                <div className="space-y-3">
-                  <span className="text-[10px] font-bold uppercase tracking-[0.4em] text-primary/60">
-                    Final Phase
-                  </span>
-                  <h2 className="text-3xl sm:text-4xl md:text-5xl font-headline font-bold leading-tight text-foreground">
-                    دهان المشربية{" "}
-                    <span style={{ color: accent, fontStyle: "italic" }}>with AI</span>
-                  </h2>
-                  <div style={{ height: "2px", width: "48px", background: `rgba(${accentRgb},0.35)`, borderRadius: "2px" }} />
-                </div>
-
-                {/* Points */}
-                <div className="space-y-5">
-                  {[
-                    {
-                      n: "01",
-                      title: "AI-Assisted Color Matching",
-                      text: "Leveraging artificial intelligence to analyse historical pigment references and propose the most authentic colour palette for the restored Mashrabiya.",
-                    },
-                    {
-                      n: "02",
-                      title: "Surface Preparation",
-                      text: "Prior to painting, the consolidated wood surfaces were carefully primed to ensure optimal adhesion and long-term stability of the paint layer.",
-                    },
-                    {
-                      n: "03",
-                      title: "Final Finish",
-                      text: "The completed paint layer restores the Mashrabiya's visual integrity, bringing it as close as possible to its original appearance while remaining fully reversible.",
-                    },
-                  ].map((item) => (
-                    <div key={item.n} className="flex gap-4 items-start">
-                      <span style={{
-                        flexShrink: 0,
-                        fontSize: "0.65rem",
-                        fontFamily: "monospace",
-                        color: accent,
-                        opacity: 0.7,
-                        marginTop: "3px",
-                        letterSpacing: "0.1em",
-                      }}>{item.n}</span>
-                      <div>
-                        <p style={{
-                          fontSize: "0.7rem",
-                          fontFamily: "monospace",
-                          letterSpacing: "0.15em",
-                          textTransform: "uppercase",
-                          color: accent,
-                          opacity: 0.85,
-                          marginBottom: "4px",
-                        }}>{item.title}</p>
-                        <p style={{
-                          fontSize: "0.82rem",
-                          color: "rgba(0,0,0,0.5)",
-                          lineHeight: 1.75,
-                          fontWeight: 400,
-                        }}>{item.text}</p>
-                      </div>
-                    </div>
-                  ))}
-                </div>
-
-                {/* Footnote */}
-                <div className="pt-4 flex items-center gap-3 opacity-30">
-                  <div style={{ height: "1px", flex: 1, background: "currentColor" }} />
-                  <span style={{ fontSize: "7px", fontFamily: "monospace", letterSpacing: "0.35em", textTransform: "uppercase" }}>
-                    Phase_IV · Painting_Completion
-                  </span>
-                </div>
-              </div>
-
             </div>
+
+          </div>
+
+          {/* ── Mashrabiya Painting with AI — Unit 1 ── */}
+          <div className="min-h-screen w-screen bg-background border-t border-foreground/5 flex flex-col items-center justify-center py-16 px-5 sm:px-8 md:px-16">
+
+            {/* Header */}
+            <div className="flex flex-col items-center text-center mb-12">
+              <div className="flex items-center gap-3 mb-3">
+                <div style={{ height: "1px", width: "24px", background: `rgba(${accentRgb},0.45)` }} />
+                <span style={{ fontSize: "8px", fontFamily: "monospace", letterSpacing: "0.45em", color: accent, textTransform: "uppercase" }}>
+                  04 — Conservation · Painting
+                </span>
+                <div style={{ height: "1px", width: "24px", background: `rgba(${accentRgb},0.45)` }} />
+              </div>
+              <h2 className="font-headline font-bold" style={{
+                fontSize: "clamp(1.8rem, 4vw, 3.2rem)", color: "#1a1400",
+                lineHeight: 1.12, letterSpacing: "-0.01em",
+              }}>
+                Mashrabiya Painting{" "}
+                <span style={{ color: accent, fontStyle: "italic" }}>with AI</span>
+              </h2>
+              <div style={{ marginTop: "14px", height: "2px", width: "56px", background: `rgba(${accentRgb},0.5)`, borderRadius: "2px" }} />
+            </div>
+
+            {/* Image */}
+            <div style={{ maxWidth: "860px", width: "100%" }}>
+              <div style={{
+                borderRadius: "1.25rem",
+                overflow: "hidden",
+                border: `1px solid rgba(${accentRgb},0.18)`,
+                boxShadow: "0 8px 40px rgba(0,0,0,0.1)",
+                background: "#faf8f2",
+                width: "100%",
+              }}>
+                <img
+                  src="/images/painting/Frame 17.png"
+                  alt="Mashrabiya Painting with AI — Unit 1"
+                  style={{ width: "100%", height: "auto", display: "block" }}
+                />
+              </div>
+            </div>
+
           </div>
         </div>
       </div>

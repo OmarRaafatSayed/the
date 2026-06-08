@@ -42,7 +42,7 @@ function AnimatedSection({
   );
 }
 
-export function CompletionSection() {
+export function CompletionSection2() {
   return (
     <div
       className="min-h-screen w-full flex flex-col items-center justify-center py-16 px-5 sm:px-8 md:px-14"
@@ -152,7 +152,7 @@ export function CompletionSection() {
             }}
           >
             <img
-              src="/images/conservation/completion/Frame 13 (1).png"
+              src="/images/conservation/completion/sec2/Frame 14.png"
               alt="Completion of Wooden Beams for Both Mashrabiyas"
               style={{ width: "100%", height: "auto", display: "block" }}
             />

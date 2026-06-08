@@ -1,7 +1,6 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import Image from "next/image";
 
 const accent = "#C9A84C";
 const accentRgb = "201,168,76";
@@ -43,28 +42,10 @@ function AnimatedSection({
   );
 }
 
-const images = [
-  {
-    src: "/images/conservation/assembly-consolidation/071723a5-0813-4580-acd6-8e4221335bb3.jpg",
-    alt: "071723a5-0813-4580-acd6-8e4221335bb3",
-    label: "071723a5-0813-4580-acd6-8e4221335bb3",
-  },
-  {
-    src: "/images/conservation/assembly-consolidation/60386936-6baf-4d5a-b3c1-fce76a8943cd.jpg",
-    alt: "60386936-6baf-4d5a-b3c1-fce76a8943cd",
-    label: "60386936-6baf-4d5a-b3c1-fce76a8943cd",
-  },
-  {
-    src: "/images/conservation/assembly-consolidation/8b9dfde9-8b21-44fc-90eb-ea4c48d66c76.jpg",
-    alt: "8b9dfde9-8b21-44fc-90eb-ea4c48d66c76",
-    label: "8b9dfde9-8b21-44fc-90eb-ea4c48d66c76",
-  },
-];
-
 export function AssemblyConsolidationSection() {
   return (
     <div
-      className="w-full py-20 px-5 sm:px-8 md:px-14"
+      className="min-h-screen w-full flex flex-col items-center justify-center py-16 px-5 sm:px-8 md:px-14"
       style={{
         background: "#faf8f4",
         borderTop: "1px solid rgba(201,168,76,0.1)",
@@ -72,7 +53,7 @@ export function AssemblyConsolidationSection() {
     >
       {/* ── Header ── */}
       <AnimatedSection>
-        <div className="flex flex-col items-center text-center mb-14">
+        <div className="flex flex-col items-center text-center mb-12">
           <div
             style={{
               display: "flex",
@@ -133,7 +114,7 @@ export function AssemblyConsolidationSection() {
           <h2
             className="font-headline font-bold"
             style={{
-              fontSize: "clamp(1.8rem, 4vw, 3.2rem)",
+              fontSize: "clamp(2rem, 4.5vw, 3.5rem)",
               color: "#1a1400",
               lineHeight: 1.12,
               letterSpacing: "-0.01em",
@@ -148,58 +129,34 @@ export function AssemblyConsolidationSection() {
           <div
             style={{
               marginTop: "14px",
-              height: "1px",
+              height: "2px",
               width: "56px",
-              background: `rgba(${accentRgb},0.3)`,
+              background: `rgba(${accentRgb},0.5)`,
               borderRadius: "2px",
             }}
           />
         </div>
       </AnimatedSection>
 
-      {/* ── Images ── */}
+      {/* ── Image ── */}
       <AnimatedSection delay={0.15}>
-        <div
-          className="flex flex-col sm:flex-row gap-8 justify-center items-center flex-wrap"
-          style={{ maxWidth: "1100px", margin: "0 auto" }}
-        >
-          {images.map((img) => (
-            <div
-              key={img.src}
-              className="flex flex-col items-center gap-3"
-              style={{ flex: "1 1 0", maxWidth: "320px", width: "100%" }}
-            >
-              <div
-                className="relative w-full rounded-[1.5rem] overflow-hidden shadow-xl"
-                style={{
-                  border: `1px solid rgba(${accentRgb},0.15)`,
-                  aspectRatio: "3/4",
-                }}
-              >
-                <Image
-                  src={img.src}
-                  alt={img.alt}
-                  fill
-                  style={{ objectFit: "contain" }}
-                  quality={95}
-                  sizes="(max-width: 640px) 90vw, 320px"
-                />
-              </div>
-              <span
-                style={{
-                  fontSize: "8px",
-                  fontFamily: "monospace",
-                  letterSpacing: "0.4em",
-                  textTransform: "uppercase",
-                  color: `rgba(${accentRgb},0.7)`,
-                  wordBreak: "break-all",
-                  textAlign: "center",
-                }}
-              >
-                {img.label}
-              </span>
-            </div>
-          ))}
+        <div style={{ maxWidth: "800px", margin: "0 auto", width: "100%" }}>
+          <div
+            style={{
+              borderRadius: "1.25rem",
+              overflow: "hidden",
+              border: `1px solid rgba(${accentRgb},0.18)`,
+              boxShadow: "0 8px 40px rgba(0,0,0,0.1)",
+              background: "#faf8f2",
+              width: "100%",
+            }}
+          >
+            <img
+              src="/images/conservation/assembly-consolidation/Frame 12.png"
+              alt="Assembly Consolidation"
+              style={{ width: "100%", height: "auto", display: "block" }}
+            />
+          </div>
         </div>
       </AnimatedSection>
 

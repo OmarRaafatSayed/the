@@ -29,11 +29,11 @@ function Reveal({ children, delay = 0 }: { children: React.ReactNode; delay?: nu
   );
 }
 
-export function FtirSection() {
+export function XrdEdxIrSection() {
   return (
-    <div className="w-full flex flex-col items-center px-5 sm:px-8 md:px-14 py-16">
+    <div className="w-full flex flex-col items-center px-5 sm:px-8 md:px-14 py-16 border-t border-foreground/5">
 
-      {/* ── Header ── */}
+      {/* Header */}
       <Reveal>
         <div style={{ display: "flex", flexDirection: "column", alignItems: "center", textAlign: "center", marginBottom: "2.5rem" }}>
           <div style={{ display: "flex", alignItems: "center", gap: "12px", marginBottom: "12px" }}>
@@ -45,16 +45,16 @@ export function FtirSection() {
           </div>
           <h2
             className="font-headline font-bold"
-            style={{ fontSize: "clamp(2rem, 4vw, 3.5rem)", color: "#1a1400", lineHeight: 1.12, letterSpacing: "-0.01em" }}
+            style={{ fontSize: "clamp(1.6rem, 3.5vw, 3rem)", color: "#1a1400", lineHeight: 1.12, letterSpacing: "-0.01em" }}
           >
-            FTIR{" "}
-            <span style={{ color: accent, fontStyle: "italic" }}>Analysis</span>
+            XRD · EDX ·{" "}
+            <span style={{ color: accent, fontStyle: "italic" }}>IR Analysis</span>
           </h2>
           <div style={{ marginTop: "14px", height: "2px", width: "56px", background: `rgba(${accentRgb},0.5)`, borderRadius: "2px" }} />
         </div>
       </Reveal>
 
-      {/* ── Single image ── */}
+      {/* Image */}
       <Reveal delay={0.15}>
         <div style={{ maxWidth: "720px", margin: "0 auto", width: "100%" }}>
           <div style={{
@@ -66,24 +66,20 @@ export function FtirSection() {
             width: "100%",
           }}>
             <img
-              src="/images/ir/Frame 8.png"
-              alt="FTIR Analysis"
-              style={{
-                width: "100%",
-                height: "auto",
-                display: "block",
-              }}
+              src="/images/ir/samar/Frame 11.png"
+              alt="XRD - EDX - IR Analysis"
+              style={{ width: "100%", height: "auto", display: "block" }}
             />
           </div>
         </div>
       </Reveal>
 
-      {/* ── Bottom rule ── */}
+      {/* Bottom rule */}
       <Reveal delay={0.3}>
         <div style={{ marginTop: "40px", display: "flex", alignItems: "center", justifyContent: "center", gap: "16px", opacity: 0.22 }}>
           <div style={{ height: "1px", flex: 1, maxWidth: "100px", background: `rgba(${accentRgb},1)` }} />
           <span style={{ fontSize: "7px", fontFamily: "monospace", letterSpacing: "0.45em", color: "#1a1400", textTransform: "uppercase" }}>
-            Phase_II · FTIR_Spectroscopy
+            Phase_II · XRD · EDX · IR_Spectroscopy
           </span>
           <div style={{ height: "1px", flex: 1, maxWidth: "100px", background: `rgba(${accentRgb},1)` }} />
         </div>
