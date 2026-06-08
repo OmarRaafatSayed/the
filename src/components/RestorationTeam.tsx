@@ -3,7 +3,7 @@
 
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 
-const supervisor = { name: "Dr. Ola Mohamed", role: "Supervisor", image: "" };
+const supervisor = { name: "Dr. Ola Mohamed", role: "Supervisor", image: "/images/team/dr-ola-mohamed.jpeg" };
 
 const teamMembers = [
   { name: "Amira", role: "", image: "/images/team/amira-mohamed.jpeg" },
@@ -16,9 +16,9 @@ const teamMembers = [
   { name: "Shahd Mohamed", role: "", image: "/images/team/shahd-mohamed.jpeg" },
   { name: "Waad", role: "", image: "/images/team/waad-waled.jpeg" },
   { name: "Safia", role: "", image: "/images/team/safia-sayed.jpeg" },
-  { name: "Kamal", role: "", image: "" },
-  { name: "Manar", role: "", image: "" },
-  { name: "Abdulrahman", role: "", image: "" },
+  { name: "Kamal", role: "", image: "/images/team/kamal.jpeg" },
+  { name: "Manar", role: "", image: "/images/team/manar-mohamed.jpeg" },
+  { name: "Abdulrahman", role: "", image: "/images/team/abdulrahman.jpeg" },
 ];
 
 export function RestorationTeam() {

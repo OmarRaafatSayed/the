@@ -7,43 +7,59 @@ const accent = "#C9A84C";
 
 // ── Data ─────────────────────────────────────────────────────────────────────
 
-const ungeasedFrame = {
-  id: "ungreased",
-  label: "Ungreased Mashrabiya",
-  images: [
-    { src: "/images/conservation/section_2/Ungreased mashrabiya/befor.jpeg",  alt: "Before — ungreased" },
-    { src: "/images/conservation/section_2/Ungreased mashrabiya/Befor1.jpeg", alt: "Before 1 — ungreased" },
-    { src: "/images/conservation/section_2/Ungreased mashrabiya/after.jpeg",  alt: "After — ungreased" },
-    { src: "/images/conservation/section_2/Ungreased mashrabiya/after1.jpeg", alt: "After 1 — ungreased" },
-  ],
-};
+const ungeasedFrames = [
+  {
+    id: "ungreased-1",
+    label: "Dust Removal",
+    images: [
+      { src: "/images/conservation/section_2/Ungreased mashrabiya/Befor.jpeg",   alt: "Before — ungreased" },
+      { src: "/images/conservation/section_2/Ungreased mashrabiya/during.jpeg",  alt: "During — ungreased" },
+      { src: "/images/conservation/section_2/Ungreased mashrabiya/after.jpeg",   alt: "After — ungreased" },
+    ],
+  },
+  {
+    id: "ungreased-2",
+    label: "Calcification Removal",
+    images: [
+      { src: "/images/conservation/section_2/Ungreased mashrabiya/sec2/befor.jpeg",    alt: "Before — ungreased II" },
+      { src: "/images/conservation/section_2/Ungreased mashrabiya/sec2/during .jpeg",  alt: "During — ungreased II" },
+      { src: "/images/conservation/section_2/Ungreased mashrabiya/sec2/after.jpeg",    alt: "After — ungreased II" },
+    ],
+  },
+];
 
 const greasedFrames = [
   {
     id: "brush-cleaning",
     label: "Brush Cleaning",
     images: [
-      { src: "/images/conservation/section_2/greased mashrabiya/The first stage/Brush cleaning/befor.jpeg",         alt: "Before — brush cleaning" },
-      { src: "/images/conservation/section_2/greased mashrabiya/The first stage/Brush cleaning/1.jpeg",             alt: "Step 1 — brush cleaning" },
-      { src: "/images/conservation/section_2/greased mashrabiya/The first stage/Brush cleaning/2.jpeg",             alt: "Step 2 — brush cleaning" },
-      { src: "/images/conservation/section_2/greased mashrabiya/The first stage/Brush cleaning/Befor - after.jpeg", alt: "Before & After — brush cleaning" },
-    ],
-  },
-  {
-    id: "water-compresses",
-    label: "Water Compresses",
-    images: [
-      { src: "/images/conservation/section_2/greased mashrabiya/The first stage/Water compresses to remove calcifications/befor1.jpeg", alt: "Before — water compresses" },
-      { src: "/images/conservation/section_2/greased mashrabiya/The first stage/Water compresses to remove calcifications/during.jpeg",  alt: "During — water compresses" },
-      { src: "/images/conservation/section_2/greased mashrabiya/The first stage/Water compresses to remove calcifications/after.jpeg",   alt: "After — water compresses" },
+      { src: "/images/conservation/section_2/greased mashrabiya/The first stage/Brush cleaning/befor.jpeg",                                                          alt: "Before — brush cleaning" },
+      { src: "/images/conservation/section_2/greased mashrabiya/The first stage/Brush cleaning/during.jpeg",                                                         alt: "During — brush cleaning" },
+      { src: "/images/conservation/section_2/greased mashrabiya/The first stage/Brush cleaning/after.jpeg",                                                          alt: "After — brush cleaning" },
+      { src: "/images/conservation/section_2/greased mashrabiya/The first stage/Water compresses to remove calcifications/befor1.jpeg",                              alt: "Before — water compresses" },
+      { src: "/images/conservation/section_2/greased mashrabiya/The first stage/Water compresses to remove calcifications/during.jpeg",                              alt: "During — water compresses" },
+      { src: "/images/conservation/section_2/greased mashrabiya/The first stage/Water compresses to remove calcifications/after.jpeg",                               alt: "After — water compresses" },
+      { src: "/images/conservation/section_2/greased mashrabiya/The first stage/Water compresses to remove calcifications/Befor - after.jpeg",                       alt: "Before & After — water compresses" },
     ],
   },
   {
     id: "remove-lacquer",
     label: "Remove Lacquer Layer",
     images: [
-      { src: "/images/conservation/section_2/greased mashrabiya/the secound stage- Remove the first layer of lacquer using paint removal material/befor.jpeg", alt: "Before — lacquer removal" },
-      { src: "/images/conservation/section_2/greased mashrabiya/the secound stage- Remove the first layer of lacquer using paint removal material/After.jpeg",  alt: "After — lacquer removal" },
+      { src: "/images/conservation/section_2/greased mashrabiya/the secound stage- Remove the first layer of lacquer using paint removal material/1.jpeg", alt: "Lacquer removal — step 1" },
+      { src: "/images/conservation/section_2/greased mashrabiya/the secound stage- Remove the first layer of lacquer using paint removal material/2.jpeg", alt: "Lacquer removal — step 2" },
+      { src: "/images/conservation/section_2/greased mashrabiya/the secound stage- Remove the first layer of lacquer using paint removal material/3.jpeg", alt: "Lacquer removal — step 3" },
+      { src: "/images/conservation/section_2/greased mashrabiya/the secound stage- Remove the first layer of lacquer using paint removal material/4.jpeg", alt: "Lacquer removal — step 4" },
+    ],
+  },
+  {
+    id: "remover-section",
+    label: "Remover Section",
+    images: [
+      { src: "/images/conservation/section_2/greased mashrabiya/remover-section/1.jpeg", alt: "Remover section — step 1" },
+      { src: "/images/conservation/section_2/greased mashrabiya/remover-section/2.jpeg", alt: "Remover section — step 2" },
+      { src: "/images/conservation/section_2/greased mashrabiya/remover-section/3.jpeg", alt: "Remover section — step 3" },
+      { src: "/images/conservation/section_2/greased mashrabiya/remover-section/4.jpeg", alt: "Remover section — step 4" },
     ],
   },
 ];
@@ -293,12 +309,19 @@ export function MechanicalCleaningSection() {
         />
       </AnimatedSection>
 
-      {/* Single frame — centered, max width so it doesn't stretch too wide */}
+      {/* 2 frames side by side — fixed width matching original single frame */}
       <AnimatedSection delay={0.1}>
-        <div style={{ display: "flex", justifyContent: "center" }}>
-          <div style={{ width: "100%", maxWidth: "340px" }}>
-            <ImageFrame frame={ungeasedFrame} sizes="(max-width: 768px) 90vw, 340px" />
-          </div>
+        <div style={{
+          display: "flex",
+          justifyContent: "center",
+          gap: "clamp(10px, 2vw, 22px)",
+          alignItems: "flex-start",
+        }}>
+          {ungeasedFrames.map((frame) => (
+            <div key={frame.id} style={{ width: "100%", maxWidth: "340px" }}>
+              <ImageFrame frame={frame} sizes="(max-width: 768px) 90vw, 340px" />
+            </div>
+          ))}
         </div>
       </AnimatedSection>
     </div>
@@ -323,12 +346,13 @@ export function GreasedCleaningSection() {
         />
       </AnimatedSection>
 
-      {/* 3 frames side by side */}
+      {/* 3 frames side by side — full section width */}
       <AnimatedSection delay={0.1}>
         <div style={{
           display: "flex",
           gap: "clamp(10px, 2vw, 22px)",
           alignItems: "flex-start",
+          width: "100%",
         }}>
           {greasedFrames.map((frame) => (
             <ImageFrame key={frame.id} frame={frame} sizes="(max-width: 768px) 90vw, 33vw" />

@@ -79,16 +79,17 @@ function MashrabiyaPanel({
     img.src = image;
   }, [image]);
 
-  // track container size
+  // track container size — use ResizeObserver so we catch visibility changes too
   useEffect(() => {
+    const el = containerRef.current;
+    if (!el) return;
     const measure = () => {
-      if (containerRef.current) {
-        setContainerSize({ w: containerRef.current.offsetWidth, h: containerRef.current.offsetHeight });
-      }
+      setContainerSize({ w: el.offsetWidth, h: el.offsetHeight });
     };
     measure();
-    window.addEventListener("resize", measure);
-    return () => window.removeEventListener("resize", measure);
+    const ro = new ResizeObserver(measure);
+    ro.observe(el);
+    return () => ro.disconnect();
   }, []);
 
   const updatePos = useCallback((clientX: number, clientY: number) => {
