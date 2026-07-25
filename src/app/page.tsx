@@ -391,6 +391,60 @@ export default function MuseumEntrance() {
         </div>
       </section>
 
+      {/* ── QR Code — bottom-left corner, small & unobtrusive ── */}
+      <a
+        href="https://graduate-9744a.web.app/"
+        target="_blank"
+        rel="noopener noreferrer"
+        className="fixed bottom-4 left-4 z-30 group"
+        style={{ textDecoration: "none" }}
+        aria-label="Scan QR to visit the live site"
+      >
+        <div
+          style={{
+            background: "rgba(10,8,0,0.65)",
+            border: `1px solid rgba(255,255,255,0.12)`,
+            borderRadius: "10px",
+            padding: "6px",
+            backdropFilter: "blur(12px)",
+            WebkitBackdropFilter: "blur(12px)",
+            transition: "border-color 0.3s ease, transform 0.3s ease",
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "center",
+            gap: "4px",
+          }}
+          className="group-hover:border-white/30 group-hover:scale-105"
+        >
+          {/* QR image */}
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img
+            src="/images/qr.png"
+            alt="QR code"
+            width={100}
+            height={100}
+            style={{
+              display: "block",
+              borderRadius: "6px",
+              imageRendering: "pixelated",
+            }}
+          />
+          {/* tiny label */}
+          <span
+            style={{
+              fontSize: "6px",
+              fontFamily: "monospace",
+              letterSpacing: "0.3em",
+              textTransform: "uppercase",
+              color: "rgba(255,255,255,0.35)",
+              lineHeight: 1,
+            }}
+          >
+            SCAN
+          </span>
+        </div>
+      </a>
+
       {/* ── CSS for particle animation ── */}
       <style jsx global>{`
         @keyframes particleFloat {

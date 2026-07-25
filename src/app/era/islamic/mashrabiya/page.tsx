@@ -3,6 +3,7 @@
 import { useEffect, useRef, useState, useCallback } from "react";
 import { Navbar } from "@/components/Navbar";
 import { Prologue } from "@/components/Prologue";
+import { VisualizationSection } from "@/components/VisualizationSection";
 import { RestorationTeam } from "@/components/RestorationTeam";
 import { PhaseSection } from "@/components/PhaseSection";
 import { MacroMicroSection } from "@/components/MacroMicroSection";
@@ -20,6 +21,8 @@ import { MashrabiyaAssemblySection3 } from "@/components/MashrabiyaAssemblySecti
 import { PreviousRestorationSection } from "@/components/PreviousRestorationSection";
 import { FtirSection } from "@/components/FtirSection";
 import { XrdEdxIrSection } from "@/components/XrdEdxIrSection";
+import { ProjectCostSection } from "@/components/ProjectCostSection";
+import { AcknowledgementsSection } from "@/components/AcknowledgementsSection";
 import Image from "next/image";
 
 const accent = "#C9A84C";
@@ -282,6 +285,16 @@ export default function MashrabiyaProject() {
     }, 80);
   }, []);
 
+  // Listen for navbar chapter clicks
+  useEffect(() => {
+    const handler = (e: Event) => {
+      const id = (e as CustomEvent<string>).detail;
+      openChapter(id);
+    };
+    window.addEventListener("openChapter", handler);
+    return () => window.removeEventListener("openChapter", handler);
+  }, [openChapter]);
+
   return (
     <main className="bg-background selection:bg-primary selection:text-white">
       <Navbar />
@@ -289,6 +302,22 @@ export default function MashrabiyaProject() {
       {/* ── SECTION 1: Hero ── */}
       <section className="h-screen w-screen overflow-hidden">
         <Prologue />
+      </section>
+
+      {/* ── SECTION 1.5: 3D Visualization ── */}
+      <section 
+        className="w-screen relative overflow-hidden"
+        style={{ background: "linear-gradient(180deg, #0a0800 0%, #0d0b00 100%)" }}
+      >
+        <VisualizationSection
+          title="Interactive 3D & 2D Visualization"
+          description="Explore the Mashrabiya in three dimensions. Rotate, zoom, and examine the conservation process with interactive controls."
+          model3DPath="/models/mashrabiya.glb"
+          image2DPath="/images/slide2-geo/ميموني عدل.jpeg"
+          patternType="geometric"
+          defaultMode="combined"
+          height="700px"
+        />
       </section>
 
       {/* ── SECTION 2: Chapter Selector ── */}
@@ -881,6 +910,48 @@ export default function MashrabiyaProject() {
           />
         </div>
 
+        {/* ── Deterioration Aspects ── */}
+        <div className="min-h-screen w-screen bg-background border-t border-foreground/5 flex flex-col items-center justify-center py-16 px-5 sm:px-8 md:px-16">
+          <div className="flex flex-col items-center text-center mb-12">
+            <div className="flex items-center gap-3 mb-3">
+              <div style={{ height: "1px", width: "24px", background: `rgba(${accentRgb},0.45)` }} />
+              <span style={{ fontSize: "8px", fontFamily: "monospace", letterSpacing: "0.45em", color: accent, textTransform: "uppercase" }}>
+                02 — Documentation · Macro Visualization
+              </span>
+              <div style={{ height: "1px", width: "24px", background: `rgba(${accentRgb},0.45)` }} />
+            </div>
+            <h2 className="font-headline font-bold" style={{
+              fontSize: "clamp(1.8rem, 4vw, 3.2rem)", color: "#1a1400",
+              lineHeight: 1.12, letterSpacing: "-0.01em",
+            }}>
+              Deterioration{" "}
+              <span style={{ color: accent, fontStyle: "italic" }}>Aspects</span>
+            </h2>
+            <div style={{ marginTop: "14px", height: "2px", width: "56px", background: `rgba(${accentRgb},0.5)`, borderRadius: "2px" }} />
+          </div>
+
+          <div style={{ maxWidth: "1100px", width: "100%" }}>
+            <div style={{
+              borderRadius: "1.25rem",
+              overflow: "hidden",
+              border: `1px solid rgba(${accentRgb},0.18)`,
+              boxShadow: "0 8px 40px rgba(0,0,0,0.1)",
+              background: "#faf8f2",
+              width: "100%",
+              maxHeight: "65vh",
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+            }}>
+              <img
+                src="/images/documentation/amira/1.jpeg"
+                alt="Deterioration Aspects"
+                style={{ width: "auto", height: "auto", maxWidth: "100%", maxHeight: "65vh", display: "block", objectFit: "contain" }}
+              />
+            </div>
+          </div>
+        </div>
+
       </div>
 
       {/* ══════════════════════════════════════════
@@ -1097,6 +1168,13 @@ export default function MashrabiyaProject() {
             </div>
 
           </div>
+
+          {/* ── Project Cost — last section inside conservation ── */}
+          <ProjectCostSection />
+
+          {/* ── Acknowledgements — final section inside conservation ── */}
+          <AcknowledgementsSection />
+
         </div>
       </div>
 

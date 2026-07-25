@@ -1,8 +1,8 @@
 "use client";
 
-import Image from "next/image";
 import { useEffect, useState } from "react";
 import { ComparisonSlider } from "@/components/BeforeAfterSection";
+import { VisualizationSection } from "@/components/VisualizationSection";
 
 const accent = "#C9A84C";
 const accentRgb = "201,168,76";
@@ -193,6 +193,29 @@ export function Prologue() {
 
       {/* Bottom accent line */}
       <div className="absolute bottom-0 left-0 right-0 h-[1px]" style={{ background: `rgba(${accentRgb},0.15)` }} />
+    </div>
+  );
+}
+
+/**
+ * Extended Prologue section with 3D visualization
+ * Includes interactive 3D models, comparisons, and 2D patterns
+ */
+export function PrologueWith3D() {
+  return (
+    <div className="w-full">
+      <Prologue />
+      
+      {/* 3D Visualization Section */}
+      <VisualizationSection
+        title="Interactive 3D & 2D Visualization"
+        description="Explore the Mashrabiya in three dimensions. Rotate, zoom, and examine the before/after conservation process with interactive controls."
+        model3DPath="/models/mashrabiya.glb"
+        image2DPath="/images/slide2-geo/ميموني عدل.jpeg"
+        patternType="geometric"
+        defaultMode="combined"
+        height="700px"
+      />
     </div>
   );
 }

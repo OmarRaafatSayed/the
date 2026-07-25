@@ -1,0 +1,141 @@
+{
+  "asset": {
+    "version": "2.0",
+    "generator": "Omar Mashrabiya Generator"
+  },
+  "scene": 0,
+  "scenes": [
+    {
+      "nodes": [
+        0
+      ]
+    }
+  ],
+  "nodes": [
+    {
+      "mesh": 0,
+      "name": "Mashrabiya_Frame"
+    }
+  ],
+  "meshes": [
+    {
+      "primitives": [
+        {
+          "attributes": {
+            "POSITION": 0,
+            "NORMAL": 1,
+            "TEXCOORD_0": 2
+          },
+          "indices": 3,
+          "material": 0
+        }
+      ]
+    }
+  ],
+  "materials": [
+    {
+      "name": "Wood",
+      "pbrMetallicRoughness": {
+        "baseColorFactor": [
+          0.75,
+          0.55,
+          0.38,
+          1.0
+        ],
+        "metallicFactor": 0.0,
+        "roughnessFactor": 0.85,
+        "baseColorTexture": {
+          "index": 0
+        }
+      }
+    }
+  ],
+  "textures": [
+    {
+      "source": 0,
+      "sampler": 0
+    }
+  ],
+  "images": [
+    {
+      "uri": "texture.jpg",
+      "mimeType": "image/jpeg"
+    }
+  ],
+  "samplers": [
+    {
+      "magFilter": 9729,
+      "minFilter": 9987,
+      "wrapS": 10497,
+      "wrapT": 10497
+    }
+  ],
+  "accessors": [
+    {
+      "bufferView": 0,
+      "componentType": 5126,
+      "count": 6912,
+      "type": "VEC3",
+      "max": [
+        0.5,
+        0.8500000238418579,
+        0.07000000029802322
+      ],
+      "min": [
+        -0.5,
+        -0.8500000238418579,
+        -0.029999999329447746
+      ]
+    },
+    {
+      "bufferView": 1,
+      "componentType": 5126,
+      "count": 6912,
+      "type": "VEC3"
+    },
+    {
+      "bufferView": 2,
+      "componentType": 5126,
+      "count": 6912,
+      "type": "VEC2"
+    },
+    {
+      "bufferView": 3,
+      "componentType": 5125,
+      "count": 10368,
+      "type": "SCALAR"
+    }
+  ],
+  "bufferViews": [
+    {
+      "buffer": 0,
+      "byteOffset": 0,
+      "byteLength": 82944,
+      "target": 34962
+    },
+    {
+      "buffer": 0,
+      "byteOffset": 82944,
+      "byteLength": 82944,
+      "target": 34962
+    },
+    {
+      "buffer": 0,
+      "byteOffset": 165888,
+      "byteLength": 55296,
+      "target": 34962
+    },
+    {
+      "buffer": 0,
+      "byteOffset": 221184,
+      "byteLength": 41472,
+      "target": 34963
+    }
+  ],
+  "buffers": [
+    {
+      "byteLength": 262656,
+      "uri": "mashrabiya.bin"
+    }
+  ]
+}
