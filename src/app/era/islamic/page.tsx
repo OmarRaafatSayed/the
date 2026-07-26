@@ -3,6 +3,7 @@
 import { Navbar } from "@/components/Navbar";
 import Link from "next/link";
 import Image from "next/image";
+import { VirtualMuseumEntry } from "@/components/VirtualMuseumEntry";
 
 import { useEffect, useState } from "react";
 
@@ -250,6 +251,41 @@ export default function IslamicEraHub() {
           <p style={{ color: "rgba(255,255,255,0.55)", lineHeight: 1.9, fontSize: "clamp(0.9rem,2vw,1.05rem)", paddingTop: "8px" }}>
             Islamic architecture represents one of history's most sophisticated visual languages — a fusion of mathematics, spirituality, and craft. From the intricate muqarnas of Mamluk Cairo to the geometric tile-work of Andalusian palaces, every surface encodes a system of proportion and meaning. This archive documents the monuments, elements, and conservation studies that define this era's architectural legacy.
           </p>
+        </div>
+      </section>
+
+      {/* ── VIRTUAL MUSEUM ENTRY ── */}
+      <section className="max-w-screen-2xl mx-auto px-5 sm:px-8 md:px-16 lg:px-24 pb-14 sm:pb-20">
+        {/* Separator */}
+        <div style={{ height: "1px", background: `linear-gradient(to right, transparent, rgba(${accentRgb},0.25), transparent)`, marginBottom: "40px" }} />
+
+        <div className="flex flex-col sm:flex-row items-center justify-between gap-8 rounded-2xl px-8 py-10 sm:py-12"
+          style={{
+            border: `1px solid rgba(${accentRgb},0.18)`,
+            background: `radial-gradient(ellipse at 60% 50%, rgba(${accentRgb},0.07) 0%, rgba(10,8,0,0) 70%), rgba(10,8,0,0.4)`,
+            backdropFilter: "blur(4px)",
+          }}>
+          {/* Left: text */}
+          <div className="text-center sm:text-left">
+            <div className="flex items-center gap-3 mb-3 justify-center sm:justify-start">
+              <div style={{ height: "1px", width: "24px", background: accent }} />
+              <span style={{ fontSize: "8px", fontFamily: "monospace", letterSpacing: "0.5em", color: accent, textTransform: "uppercase" }}>
+                New Feature
+              </span>
+            </div>
+            <h2 className="font-headline font-bold" style={{ fontSize: "clamp(1.6rem,3.5vw,2.4rem)", color: "#fff", lineHeight: 1.1, marginBottom: "12px" }}>
+              Step Inside the<br />
+              <span style={{ color: accent, fontStyle: "italic" }}>Virtual Museum</span>
+            </h2>
+            <p style={{ color: "rgba(255,255,255,0.45)", fontSize: "0.85rem", maxWidth: "340px", lineHeight: 1.75 }}>
+              Experience the Mashrabiya collection in an immersive 3D environment. Reserve your free ticket and enter the digital hall.
+            </p>
+          </div>
+
+          {/* Right: button */}
+          <div className="flex-shrink-0">
+            <VirtualMuseumEntry />
+          </div>
         </div>
       </section>
 
